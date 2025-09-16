@@ -96,6 +96,8 @@ const Header = () => {
     return location?.pathname === path;
   };
 
+  const isHome = location?.pathname === '/home-landing';
+
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -137,55 +139,68 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navigationItems?.map((item) => (
-              <div key={item?.path} className="relative group">
-                <Link
-                  to={item?.path}
-                  className={`
-                    flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-150
-                    ${isActiveRoute(item?.path)
-                      ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted hover:scale-105'
-                    }
-                  `}
-                >
-                  <Icon name={item?.icon} size={18} />
-                  <span>{item?.label}</span>
-                  {item?.badge && (
-                    <span className="ml-1 px-2 py-0.5 text-xs bg-accent text-accent-foreground rounded-full">
-                      {item?.badge}
-                    </span>
+          {isHome ? (
+            <div className="hidden md:flex items-center space-x-3">
+              <Link to="/auth/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+              <Link to="/auth/signup">
+                <Button>Register</Button>
+              </Link>
+            </div>
+          ) : (
+            <nav className="hidden md:flex items-center space-x-1">
+              {navigationItems?.map((item) => (
+                <div key={item?.path} className="relative group">
+                  <Link
+                    to={item?.path}
+                    className={`
+                      flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-150
+                      ${isActiveRoute(item?.path)
+                        ? 'bg-primary text-primary-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted hover:scale-105'
+                      }
+                    `}
+                  >
+                    <Icon name={item?.icon} size={18} />
+                    <span>{item?.label}</span>
+                    {item?.badge && (
+                      <span className="ml-1 px-2 py-0.5 text-xs bg-accent text-accent-foreground rounded-full">
+                        {item?.badge}
+                      </span>
+                    )}
+                  </Link>
+
+                  {/* Tooltip */}
+                  {item?.tooltip && (
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 text-xs bg-popover text-popover-foreground rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-200">
+                      {item?.tooltip}
+                      <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-popover"></div>
+                    </div>
                   )}
-                </Link>
-                
-                {/* Tooltip */}
-                {item?.tooltip && (
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-1 text-xs bg-popover text-popover-foreground rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-200">
-                    {item?.tooltip}
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-popover"></div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
+                </div>
+              ))}
+            </nav>
+          )}
 
           {/* User Context Indicator - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center space-x-3 px-4 py-2 bg-muted rounded-lg">
-              <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
-                <span className="text-sm font-medium text-primary-foreground">
-                  {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
-                </span>
-              </div>
-              <div className="text-sm">
-                <p className="font-medium text-foreground">{userProfile?.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  Profile {userProfile?.profileCompletion}% • {userProfile?.recentMatches} new matches
-                </p>
+          {!isHome && (
+            <div className="hidden md:flex items-center space-x-4">
+              <div className="flex items-center space-x-3 px-4 py-2 bg-muted rounded-lg">
+                <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
+                  <span className="text-sm font-medium text-primary-foreground">
+                    {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                  </span>
+                </div>
+                <div className="text-sm">
+                  <p className="font-medium text-foreground">{userProfile?.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Profile {userProfile?.profileCompletion}% • {userProfile?.recentMatches} new matches
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
@@ -204,71 +219,84 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-card border-t border-border animate-slide-down">
           <div className="px-4 py-4 space-y-2">
-            {/* User Context - Mobile */}
-            <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg mb-4">
-              <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-full">
-                <span className="text-sm font-medium text-primary-foreground">
-                  {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
-                </span>
-              </div>
-              <div>
-                <p className="font-medium text-foreground">{userProfile?.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  Profile {userProfile?.profileCompletion}% complete
-                </p>
-                <p className="text-xs text-accent font-medium">
-                  {userProfile?.recentMatches} new matches available
-                </p>
-              </div>
-            </div>
-
-            {/* Primary Navigation - Mobile */}
-            {navigationItems?.map((item) => (
-              <Link
-                key={item?.path}
-                to={item?.path}
-                onClick={closeMobileMenu}
-                className={`
-                  flex items-center space-x-3 p-3 rounded-lg transition-all duration-150
-                  ${isActiveRoute(item?.path)
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }
-                `}
-              >
-                <Icon name={item?.icon} size={20} />
-                <span className="font-medium">{item?.label}</span>
-                {item?.badge && (
-                  <span className="ml-auto px-2 py-0.5 text-xs bg-accent text-accent-foreground rounded-full">
-                    {item?.badge}
-                  </span>
-                )}
-              </Link>
-            ))}
-
-            {/* Secondary Navigation - Mobile */}
-            <div className="pt-4 mt-4 border-t border-border">
-              <p className="px-3 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                Quick Access
-              </p>
-              {secondaryItems?.map((item) => (
-                <Link
-                  key={item?.path}
-                  to={item?.path}
-                  onClick={closeMobileMenu}
-                  className={`
-                    flex items-center space-x-3 p-3 rounded-lg transition-all duration-150
-                    ${isActiveRoute(item?.path)
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                    }
-                  `}
-                >
-                  <Icon name={item?.icon} size={18} />
-                  <span>{item?.label}</span>
+            {isHome ? (
+              <div className="space-y-3">
+                <Link to="/auth/login" onClick={closeMobileMenu}>
+                  <Button variant="outline" className="w-full">Login</Button>
                 </Link>
-              ))}
-            </div>
+                <Link to="/auth/signup" onClick={closeMobileMenu}>
+                  <Button className="w-full">Register</Button>
+                </Link>
+              </div>
+            ) : (
+              <>
+                {/* User Context - Mobile */}
+                <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg mb-4">
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-full">
+                    <span className="text-sm font-medium text-primary-foreground">
+                      {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">{userProfile?.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Profile {userProfile?.profileCompletion}% complete
+                    </p>
+                    <p className="text-xs text-accent font-medium">
+                      {userProfile?.recentMatches} new matches available
+                    </p>
+                  </div>
+                </div>
+
+                {/* Primary Navigation - Mobile */}
+                {navigationItems?.map((item) => (
+                  <Link
+                    key={item?.path}
+                    to={item?.path}
+                    onClick={closeMobileMenu}
+                    className={`
+                      flex items-center space-x-3 p-3 rounded-lg transition-all duration-150
+                      ${isActiveRoute(item?.path)
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                      }
+                    `}
+                  >
+                    <Icon name={item?.icon} size={20} />
+                    <span className="font-medium">{item?.label}</span>
+                    {item?.badge && (
+                      <span className="ml-auto px-2 py-0.5 text-xs bg-accent text-accent-foreground rounded-full">
+                        {item?.badge}
+                      </span>
+                    )}
+                  </Link>
+                ))}
+
+                {/* Secondary Navigation - Mobile */}
+                <div className="pt-4 mt-4 border-t border-border">
+                  <p className="px-3 text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                    Quick Access
+                  </p>
+                  {secondaryItems?.map((item) => (
+                    <Link
+                      key={item?.path}
+                      to={item?.path}
+                      onClick={closeMobileMenu}
+                      className={`
+                        flex items-center space-x-3 p-3 rounded-lg transition-all duration-150
+                        ${isActiveRoute(item?.path)
+                          ? 'bg-primary text-primary-foreground'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                        }
+                      `}
+                    >
+                      <Icon name={item?.icon} size={18} />
+                      <span>{item?.label}</span>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
