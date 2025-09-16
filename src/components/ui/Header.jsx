@@ -2,15 +2,54 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
+import { supabase } from '../../lib/supabaseClient';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState({
-    name: 'Alex Kumar',
-    profileCompletion: 85,
-    recentMatches: 3
-  });
+  const [userProfile, setUserProfile] = useState(null);
   const location = useLocation();
+
+  useEffect(() => {
+    let mounted = true;
+    const init = async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        const user = data?.user;
+        if (user && mounted) {
+          setUserProfile({
+            name: user.user_metadata?.full_name || user.email,
+            profileCompletion: user.user_metadata?.profileCompletion || 85,
+            recentMatches: user.user_metadata?.recentMatches || 3,
+            role: user.user_metadata?.role || 'student'
+          });
+        } else if (mounted) {
+          setUserProfile(null);
+        }
+      } catch (err) {
+        console.error('Auth init error', err);
+      }
+    };
+    init();
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        const u = session.user;
+        setUserProfile({
+          name: u.user_metadata?.full_name || u.email,
+          profileCompletion: u.user_metadata?.profileCompletion || 85,
+          recentMatches: u.user_metadata?.recentMatches || 3,
+          role: u.user_metadata?.role || 'student'
+        });
+      } else {
+        setUserProfile(null);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      try { listener?.subscription?.unsubscribe?.(); } catch (e) {}
+    };
+  }, []);
 
   const navigationItems = [
     {
