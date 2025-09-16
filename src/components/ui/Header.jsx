@@ -209,8 +209,10 @@ const Header = () => {
               size="icon"
               onClick={handleMobileMenuToggle}
               className="relative"
+              aria-expanded={isMobileMenuOpen}
+              aria-label="Toggle menu"
             >
-              <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={24} />
+              <Icon name={isMobileMenuOpen ? "X" : "Menu"} size={isMobileMenuOpen ? 22 : 22} />
             </Button>
           </div>
         </div>
