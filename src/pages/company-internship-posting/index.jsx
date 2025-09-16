@@ -143,10 +143,8 @@ const CompanyInternshipPosting = () => {
     setErrors(prev => ({ ...prev, submit: '' }));
 
     try {
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr) throw userErr;
-
-      const uid = userData?.user?.id || null;
+      const { data: sessionData } = await supabase.auth.getSession();
+      const uid = sessionData?.session?.user?.id || null;
       const payload = {
         company_name: formData.companyName,
         company_website: formData.companyWebsite || null,
