@@ -43,15 +43,15 @@ const SignUp = () => {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}>
-      <div className="w-full max-w-md bg-white/70 backdrop-blur-md p-8 rounded-md shadow-2xl border border-border">
-        <h2 className="text-3xl font-extrabold mb-2 text-foreground">Make career moves</h2>
-        <p className="text-sm text-muted-foreground mb-6">Use your .edu email if you have one.</p>
+      <div className="w-full max-w-md bg-white/70 backdrop-blur-md p-8 rounded-md shadow-2xl border border-border text-black">
+        <h2 className="text-3xl font-extrabold mb-2 text-black">Make career moves</h2>
+        <p className="text-sm text-black/80 mb-6">Use your .edu email if you have one.</p>
 
-        {message && <p className="mb-3 text-sm text-muted-foreground">{message}</p>}
+        {message && <p className="mb-3 text-sm text-black/80">{message}</p>}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm mb-1 text-muted-foreground">Email address</label>
-            <input className="w-full px-3 py-2 border border-border rounded-md" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
+            <label className="block text-sm mb-1 text-black/80">Email address</label>
+            <input className="w-full px-3 py-2 border border-border rounded-md text-black" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
           </div>
 
           <div className="flex items-center">
