@@ -215,22 +215,33 @@ const Header = () => {
             </nav>
           )}
 
-          {/* User Context Indicator - Desktop */}
+          {/* User Context / Auth Actions - Desktop */}
           {!isHome && (
             <div className="hidden md:flex items-center space-x-4">
-              <div className="flex items-center space-x-3 px-4 py-2 bg-muted rounded-lg">
-                <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
-                  <span className="text-sm font-medium text-primary-foreground">
-                    {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
-                  </span>
+              {userProfile ? (
+                <div className="flex items-center space-x-3 px-4 py-2 bg-muted rounded-lg">
+                  <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
+                    <span className="text-sm font-medium text-primary-foreground">
+                      {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                    </span>
+                  </div>
+                  <div className="text-sm">
+                    <p className="font-medium text-foreground">{userProfile?.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Profile {userProfile?.profileCompletion}% • {userProfile?.recentMatches} new matches
+                    </p>
+                  </div>
                 </div>
-                <div className="text-sm">
-                  <p className="font-medium text-foreground">{userProfile?.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    Profile {userProfile?.profileCompletion}% • {userProfile?.recentMatches} new matches
-                  </p>
+              ) : (
+                <div className="hidden md:flex items-center space-x-3">
+                  <Link to="/auth/signup">
+                    <Button variant="outline">Sign up</Button>
+                  </Link>
+                  <Link to="/auth/login">
+                    <Button className="bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
+                  </Link>
                 </div>
-              </div>
+              )}
             </div>
           )}
 
