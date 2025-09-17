@@ -38,6 +38,9 @@ const HomeLanding = () => {
         {/* Hero Section */}
         <HeroSection />
 
+        {/* Companies Scroller */}
+        <CompaniesMarquee />
+
         {/* Platform Statistics */}
         <StatsSection />
 
