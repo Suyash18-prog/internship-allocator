@@ -97,6 +97,9 @@ const Header = () => {
   };
 
   const isHome = location?.pathname === '/home-landing';
+  const headerClasses = isHome
+    ? 'fixed top-0 left-0 right-0 z-100 bg-transparent border-transparent'
+    : 'fixed top-0 left-0 right-0 z-100 bg-card border-b border-border';
 
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -118,34 +121,40 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-100 bg-card border-b border-border">
+    <header className={headerClasses}>
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 md:h-16">
           {/* Logo Section */}
           <div className="flex items-center">
-            <Link 
-              to="/home-landing" 
+            <Link
+              to="/home-landing"
               className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-150"
               onClick={closeMobileMenu}
             >
-              <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
-                <Icon name="Briefcase" size={24} color="white" />
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-semibold text-foreground">PM Internship</h1>
-                <p className="text-xs text-muted-foreground -mt-1">Matcher</p>
-              </div>
+              {isHome ? (
+                <span className="text-lime-400 text-xl md:text-2xl font-semibold">Handshake</span>
+              ) : (
+                <>
+                  <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
+                    <Icon name="Briefcase" size={24} color="white" />
+                  </div>
+                  <div className="hidden sm:block">
+                    <h1 className="text-xl font-semibold text-foreground">PM Internship</h1>
+                    <p className="text-xs text-muted-foreground -mt-1">Matcher</p>
+                  </div>
+                </>
+              )}
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           {isHome ? (
             <div className="hidden md:flex items-center space-x-3">
-              <Link to="/auth/login">
-                <Button variant="outline">Login</Button>
-              </Link>
               <Link to="/auth/signup">
-                <Button>Register</Button>
+                <Button variant="outline">Sign up</Button>
+              </Link>
+              <Link to="/auth/login">
+                <Button className="bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
               </Link>
             </div>
           ) : (
@@ -223,11 +232,11 @@ const Header = () => {
           <div className="px-4 py-4 space-y-2">
             {isHome ? (
               <div className="space-y-3">
-                <Link to="/auth/login" onClick={closeMobileMenu}>
-                  <Button variant="outline" className="w-full">Login</Button>
-                </Link>
                 <Link to="/auth/signup" onClick={closeMobileMenu}>
-                  <Button className="w-full">Register</Button>
+                  <Button variant="outline" className="w-full">Sign up</Button>
+                </Link>
+                <Link to="/auth/login" onClick={closeMobileMenu}>
+                  <Button className="w-full bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
                 </Link>
               </div>
             ) : (
