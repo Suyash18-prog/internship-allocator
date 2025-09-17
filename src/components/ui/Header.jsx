@@ -98,8 +98,8 @@ const Header = () => {
 
   const isHome = location?.pathname === '/home-landing';
   const headerClasses = isHome
-    ? 'fixed top-0 left-0 right-0 z-100 bg-transparent border-transparent'
-    : 'fixed top-0 left-0 right-0 z-100 bg-card border-b border-border';
+    ? 'fixed top-0 left-0 right-0 z-100 bg-transparent border-transparent font-noi'
+    : 'fixed top-0 left-0 right-0 z-100 bg-card border-b border-border font-noi';
 
   const homeTabs = [
     { label: 'Students', path: '/matchmaking-dashboard' },
