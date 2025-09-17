@@ -289,23 +289,37 @@ const Header = () => {
               </div>
             ) : (
               <>
-                {/* User Context - Mobile */}
-                <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg mb-4">
-                  <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-full">
-                    <span className="text-sm font-medium text-primary-foreground">
-                      {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
-                    </span>
+                {/* If not logged in, show auth actions */}
+                {!userProfile && (
+                  <div className="space-y-3 px-3">
+                    <Link to="/auth/signup" onClick={closeMobileMenu}>
+                      <Button variant="outline" className="w-full">Sign up</Button>
+                    </Link>
+                    <Link to="/auth/login" onClick={closeMobileMenu}>
+                      <Button className="w-full bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
+                    </Link>
                   </div>
-                  <div>
-                    <p className="font-medium text-foreground">{userProfile?.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Profile {userProfile?.profileCompletion}% complete
-                    </p>
-                    <p className="text-xs text-accent font-medium">
-                      {userProfile?.recentMatches} new matches available
-                    </p>
+                )}
+
+                {/* User Context - Mobile (if logged in) */}
+                {userProfile && (
+                  <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg mb-4">
+                    <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-full">
+                      <span className="text-sm font-medium text-primary-foreground">
+                        {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-medium text-foreground">{userProfile?.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        Profile {userProfile?.profileCompletion}% complete
+                      </p>
+                      <p className="text-xs text-accent font-medium">
+                        {userProfile?.recentMatches} new matches available
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Primary Navigation - Mobile */}
                 {navigationItems?.map((item) => (
