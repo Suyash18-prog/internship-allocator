@@ -37,28 +37,43 @@ const SignUp = () => {
   const backgroundImage = 'https://cdn.builder.io/api/v1/image/assets%2F902415637eba40ef8ec961d0f3cbb8f5%2Ff74029a8379147a3a973f550b94cc2d7?format=webp&width=1600';
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6" style={{
       backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}>
-      <div className="w-full max-w-md bg-white/70 backdrop-blur-md p-8 rounded-md shadow-2xl border border-border text-black">
-        <h2 className="text-3xl font-extrabold mb-2 text-black">Make career moves</h2>
-        <p className="text-sm text-black/80 mb-6">Use your .edu email if you have one.</p>
+      <div className="w-full max-w-md bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl border border-border text-black">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-1 tracking-tight">Make career moves</h2>
+          <p className="text-sm text-black/75">Use your .edu email if you have one.</p>
+        </div>
 
-        {message && <p className="mb-3 text-sm text-black/80">{message}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {message && <p className="mb-4 text-sm text-black/75">{message}</p>}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm mb-1 text-black/80">Email address</label>
-            <input className="w-full px-3 py-2 border border-border rounded-md text-black" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
+            <label className="block text-sm mb-2 text-black/75">Email address</label>
+            <input
+              className="w-full px-4 py-3 border border-border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="you@college.edu"
+              required
+            />
           </div>
 
-          <div className="flex items-center">
-            <button type="submit" className="w-full px-4 py-2 bg-foreground text-white font-semibold rounded-md">Next</button>
+          <div>
+            <button
+              type="submit"
+              className="w-full px-4 py-3 bg-primary text-primary-foreground font-semibold rounded-lg shadow-md hover:brightness-95 transition"
+            >
+              Next
+            </button>
           </div>
 
-          <div className="text-center text-xs text-muted-foreground">
+          <div className="text-center text-sm text-black/70 space-y-1">
             <p>Employer? <a className="text-primary underline" href="#">Create account</a></p>
             <p>Career services? <a className="text-primary underline" href="#">Get started</a></p>
           </div>
