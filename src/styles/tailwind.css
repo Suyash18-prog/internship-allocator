@@ -81,10 +81,21 @@
 }
 
 @layer utilities {
-  .animate-marquee { animation: marquee 30s linear infinite; }
-  .animate-marquee-fast { animation-duration: 20s; }
-  .animate-marquee-slow { animation-duration: 45s; }
-  .animate-marquee-reverse { animation: marqueeReverse 30s linear infinite; }
+  /* Use CSS variables for duration and play-state to allow hover and JS control */
+  .animate-marquee {
+    animation-name: marquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--marquee-duration, 32s);
+    animation-play-state: var(--marquee-play, running);
+  }
+  .animate-marquee-reverse {
+    animation-name: marqueeReverse;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--marquee-duration, 32s);
+    animation-play-state: var(--marquee-play, running);
+  }
 }
 
 @keyframes marquee {
