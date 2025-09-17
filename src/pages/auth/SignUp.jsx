@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 
@@ -34,31 +35,34 @@ const SignUp = () => {
     }
   };
 
+  const backgroundGradient = `radial-gradient(at 33% 2%, #f344bc 0, transparent 50%), radial-gradient(at 42% 35%, #51c4f6 0, transparent 50%), radial-gradient(at 95% 26%, #cf8af4 0, transparent 50%), radial-gradient(at 91% 68%, #a085e0 0, transparent 50%), radial-gradient(at 47% 56%, #50f83a 0, transparent 50%), radial-gradient(at 11% 71%, #b0f099 0, transparent 50%), radial-gradient(at 66% 59%, #a9df62 0, transparent 50%)`;
+  const backgroundImage = 'https://cdn.builder.io/api/v1/image/assets%2F902415637eba40ef8ec961d0f3cbb8f5%2F2c26372928ef47008dc3a5614f63de0d?format=webp&width=1600';
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md bg-card p-6 rounded-md shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Create an account</h2>
+    <div className="min-h-screen flex items-center justify-center" style={{
+      backgroundImage: `${backgroundGradient}, url(${backgroundImage})`,
+      backgroundBlendMode: 'overlay, normal',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    }}>
+      <div className="w-full max-w-md bg-white/85 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-border">
+        <h2 className="text-3xl font-extrabold mb-2 text-foreground">Make career moves</h2>
+        <p className="text-sm text-muted-foreground mb-6">Use your .edu email if you have one.</p>
+
         {message && <p className="mb-3 text-sm text-muted-foreground">{message}</p>}
-        <form onSubmit={handleSubmit} className="space-y-3">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm mb-1">Email</label>
-            <input className="w-full input" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
+            <label className="block text-sm mb-1 text-muted-foreground">Email address</label>
+            <input className="w-full px-3 py-2 border border-border rounded-md" value={email} onChange={(e) => setEmail(e.target.value)} type="email" required />
           </div>
-          <div>
-            <label className="block text-sm mb-1">Password</label>
-            <input className="w-full input" value={password} onChange={(e) => setPassword(e.target.value)} type="password" required />
+
+          <div className="flex items-center">
+            <button type="submit" className="w-full px-4 py-2 bg-foreground text-white font-semibold rounded-md">Next</button>
           </div>
-          <div>
-            <label className="block text-sm mb-1">Role</label>
-            <select className="w-full input" value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="student">Student (looking for internship)</option>
-              <option value="industry">Industry (posting internships)</option>
-              <option value="admin">Admin (main control)</option>
-            </select>
-          </div>
-          <div className="flex items-center justify-between">
-            <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? 'Signing up...' : 'Sign up'}</button>
-            <button type="button" className="btn" onClick={() => navigate('/auth/login')}>Login</button>
+
+          <div className="text-center text-xs text-muted-foreground">
+            <p>Employer? <a className="text-primary underline" href="#">Create account</a></p>
+            <p>Career services? <a className="text-primary underline" href="#">Get started</a></p>
           </div>
         </form>
       </div>
