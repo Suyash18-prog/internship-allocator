@@ -266,7 +266,7 @@ const Header = () => {
                 <div className="pt-2 border-t border-border">
                   {homeTabs.map((tab) => (
                     <Link
-                      key={tab.path}
+                      key={`${tab.label}-${tab.path}`}
                       to={tab.path}
                       onClick={closeMobileMenu}
                       className="block px-3 py-2 rounded-md text-sm text-foreground/80 hover:text-foreground hover:bg-muted"
