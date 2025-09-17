@@ -49,10 +49,9 @@ const Card = ({ name, type, stipend, logoUrl }) => (
   </div>
 );
 
-const Row = ({ reverse = false, baseSpeed = 40 }) => {
+const Row = ({ reverse = false, baseSpeed = 60, hoverAll = false, hoverTargetSec = 120 }) => {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
-  const [hover, setHover] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -68,11 +67,10 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
 
   const playState = inView ? 'running' : 'paused';
 
-  // Smoothly interpolate duration between baseSpeed and baseSpeed * 2
+  // Smoothly interpolate duration between baseSpeed and hoverTargetSec
   const marqueeRef = useRef(null);
   const currentDurationRef = useRef(baseSpeed);
   useEffect(() => {
-    // apply initial values
     const el = marqueeRef.current;
     if (el) {
       el.style.setProperty('--marquee-duration', `${baseSpeed}s`);
@@ -88,7 +86,6 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
     const to = targetSec;
     const step = (now) => {
       const t = Math.min(1, (now - start) / durationMs);
-      // easeInOutQuad
       const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
       const val = from + (to - from) * eased;
       el.style.setProperty('--marquee-duration', `${val}s`);
@@ -98,22 +95,12 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
     requestAnimationFrame(step);
   };
 
-  const handleMouseEnter = () => {
-    setHover(true);
-    animateTo(baseSpeed * 2, 800);
-  };
-  const handleMouseLeave = () => {
-    setHover(false);
-    animateTo(baseSpeed, 800);
-  };
+  useEffect(() => {
+    animateTo(hoverAll ? hoverTargetSec : baseSpeed, 800);
+  }, [hoverAll, baseSpeed]);
 
   return (
-    <div
-      ref={ref}
-      className="overflow-hidden"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div ref={ref} className="overflow-hidden">
       <div
         ref={marqueeRef}
         className={`${reverse ? 'animate-marquee-reverse' : 'animate-marquee'} w-max flex gap-4 pr-4`}
@@ -128,15 +115,21 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
 };
 
 const CompaniesMarquee = () => {
+  const [hoverAll, setHoverAll] = useState(false);
+  const hoverTargetSec = 140; // unified slower speed on hover for both rows
   return (
-    <section className="py-8 md:py-12 bg-transparent">
+    <section
+      className="py-8 md:py-12 bg-transparent"
+      onMouseEnter={() => setHoverAll(true)}
+      onMouseLeave={() => setHoverAll(false)}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-2xl md:text-3xl font-semibold text-foreground mb-6">
           Jobs and internships you actually want
         </h2>
         <div className="space-y-4">
-          <Row reverse={false} baseSpeed={42} />
-          <Row reverse={true} baseSpeed={52} />
+          <Row reverse={false} baseSpeed={70} hoverAll={hoverAll} hoverTargetSec={hoverTargetSec} />
+          <Row reverse={true} baseSpeed={80} hoverAll={hoverAll} hoverTargetSec={hoverTargetSec} />
         </div>
       </div>
     </section>
