@@ -101,6 +101,14 @@ const Header = () => {
     ? 'fixed top-0 left-0 right-0 z-100 bg-transparent border-transparent'
     : 'fixed top-0 left-0 right-0 z-100 bg-card border-b border-border';
 
+  const homeTabs = [
+    { label: 'Students', path: '/matchmaking-dashboard' },
+    { label: 'Employers', path: '/company-internship-posting' },
+    { label: 'Career centers', path: '/student-registration' },
+    { label: 'Company', path: '/home-landing' },
+    { label: 'Handshake AI', path: '/home-landing' }
+  ];
+
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -147,7 +155,22 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Home Tabs - Desktop */}
+          {isHome && (
+            <nav className="hidden md:flex items-center gap-1 md:gap-2">
+              {homeTabs.map((tab) => (
+                <Link
+                  key={tab.path}
+                  to={tab.path}
+                  className="px-3 py-1.5 rounded-full text-sm text-foreground/80 hover:text-foreground hover:bg-muted transition"
+                >
+                  {tab.label}
+                </Link>
+              ))}
+            </nav>
+          )}
+
+          {/* Desktop Actions */}
           {isHome ? (
             <div className="hidden md:flex items-center space-x-3">
               <Link to="/auth/signup">
@@ -231,13 +254,27 @@ const Header = () => {
         <div className="md:hidden bg-card border-t border-border animate-slide-down">
           <div className="px-4 py-4 space-y-2">
             {isHome ? (
-              <div className="space-y-3">
-                <Link to="/auth/signup" onClick={closeMobileMenu}>
-                  <Button variant="outline" className="w-full">Sign up</Button>
-                </Link>
-                <Link to="/auth/login" onClick={closeMobileMenu}>
-                  <Button className="w-full bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
-                </Link>
+              <div className="space-y-4">
+                <div className="space-y-3">
+                  <Link to="/auth/signup" onClick={closeMobileMenu}>
+                    <Button variant="outline" className="w-full">Sign up</Button>
+                  </Link>
+                  <Link to="/auth/login" onClick={closeMobileMenu}>
+                    <Button className="w-full bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
+                  </Link>
+                </div>
+                <div className="pt-2 border-t border-border">
+                  {homeTabs.map((tab) => (
+                    <Link
+                      key={tab.path}
+                      to={tab.path}
+                      onClick={closeMobileMenu}
+                      className="block px-3 py-2 rounded-md text-sm text-foreground/80 hover:text-foreground hover:bg-muted"
+                    >
+                      {tab.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
             ) : (
               <>
