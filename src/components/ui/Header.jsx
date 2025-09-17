@@ -106,7 +106,7 @@ const Header = () => {
     { label: 'Employers', path: '/company-internship-posting' },
     { label: 'Career centers', path: '/student-registration' },
     { label: 'Company', path: '/home-landing' },
-    { label: 'Handshake AI', path: '/home-landing' }
+    { label: 'InterNova AI', path: '/home-landing' }
   ];
 
   const handleMobileMenuToggle = () => {
@@ -140,7 +140,7 @@ const Header = () => {
               onClick={closeMobileMenu}
             >
               {isHome ? (
-                <span className="text-lime-400 text-xl md:text-2xl font-semibold">Handshake</span>
+                <span className="text-lime-400 text-xl md:text-2xl font-semibold">InterNova</span>
               ) : (
                 <>
                   <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
