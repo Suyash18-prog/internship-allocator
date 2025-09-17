@@ -66,19 +66,58 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
 
   const items = [...companies, ...companies];
 
-  const duration = hover ? `${baseSpeed * 2}s` : `${baseSpeed}s`;
   const playState = inView ? 'running' : 'paused';
+
+  // Smoothly interpolate duration between baseSpeed and baseSpeed * 2
+  const marqueeRef = useRef(null);
+  const currentDurationRef = useRef(baseSpeed);
+  useEffect(() => {
+    // apply initial values
+    const el = marqueeRef.current;
+    if (el) {
+      el.style.setProperty('--marquee-duration', `${baseSpeed}s`);
+      el.style.setProperty('--marquee-play', playState);
+    }
+  }, [baseSpeed, playState]);
+
+  const animateTo = (targetSec, durationMs = 700) => {
+    const el = marqueeRef.current;
+    if (!el) return;
+    const start = performance.now();
+    const from = currentDurationRef.current;
+    const to = targetSec;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / durationMs);
+      // easeInOutQuad
+      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+      const val = from + (to - from) * eased;
+      el.style.setProperty('--marquee-duration', `${val}s`);
+      if (t < 1) requestAnimationFrame(step);
+      else currentDurationRef.current = to;
+    };
+    requestAnimationFrame(step);
+  };
+
+  const handleMouseEnter = () => {
+    setHover(true);
+    animateTo(baseSpeed * 2, 800);
+  };
+  const handleMouseLeave = () => {
+    setHover(false);
+    animateTo(baseSpeed, 800);
+  };
 
   return (
     <div
       ref={ref}
       className="overflow-hidden"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
+        ref={marqueeRef}
         className={`${reverse ? 'animate-marquee-reverse' : 'animate-marquee'} w-max flex gap-4 pr-4`}
-        style={{ ['--marquee-duration']: duration, ['--marquee-play']: playState }}
+        style={{ ['--marquee-play']: playState }}
       >
         {items.map((item, idx) => (
           <Card key={`${item.name}-${idx}-${reverse ? 'r' : 'f'}`} {...item} />
