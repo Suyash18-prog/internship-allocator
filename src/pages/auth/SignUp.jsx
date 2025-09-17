@@ -45,7 +45,7 @@ const SignUp = () => {
     }}>
       <div className="w-full max-w-md bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl border border-border text-black">
         <div className="mb-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-1 tracking-tight">Make career moves</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-1 tracking-tight" style={{ fontFamily: 'Impact, Haettenschweiler, "Arial Black", sans-serif' }}>Make career moves</h2>
           <p className="text-sm text-black/75">Use your .edu email if you have one.</p>
         </div>
 
@@ -67,7 +67,7 @@ const SignUp = () => {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-3 bg-primary text-primary-foreground font-semibold rounded-lg shadow-md hover:brightness-95 transition"
+              className="w-full px-4 py-3 bg-black text-white font-semibold rounded-lg shadow-md hover:brightness-95 transition"
             >
               Next
             </button>
