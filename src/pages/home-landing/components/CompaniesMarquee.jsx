@@ -66,7 +66,6 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
 
   const items = [...companies, ...companies];
 
-  // compute duration
   const duration = hover ? `${baseSpeed * 2}s` : `${baseSpeed}s`;
   const playState = inView ? 'running' : 'paused';
 
@@ -81,8 +80,8 @@ const Row = ({ reverse = false, baseSpeed = 40 }) => {
         className={`${reverse ? 'animate-marquee-reverse' : 'animate-marquee'} w-max flex gap-4 pr-4`}
         style={{ ['--marquee-duration']: duration, ['--marquee-play']: playState }}
       >
-        {items.map((name, idx) => (
-          <Card key={`${name}-${idx}-${reverse ? 'r' : 'f'}`} name={name} />
+        {items.map((item, idx) => (
+          <Card key={`${item.name}-${idx}-${reverse ? 'r' : 'f'}`} {...item} />
         ))}
       </div>
     </div>
