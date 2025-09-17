@@ -160,7 +160,7 @@ const Header = () => {
             <nav className="hidden md:flex items-center gap-1 md:gap-2">
               {homeTabs.map((tab) => (
                 <Link
-                  key={tab.path}
+                  key={`${tab.label}-${tab.path}`}
                   to={tab.path}
                   className="px-3 py-1.5 rounded-full text-sm text-foreground/80 hover:text-foreground hover:bg-muted transition"
                 >
