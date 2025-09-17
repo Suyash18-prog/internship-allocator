@@ -233,12 +233,12 @@ const Header = () => {
                   </div>
                 </div>
               ) : (
-                <div className="hidden md:flex items-center space-x-3">
+                <div className="flex items-center space-x-3">
                   <Link to="/auth/signup">
-                    <Button variant="outline">Sign up</Button>
+                    <Button variant="outline" className="border-black text-black bg-white/90">Sign up</Button>
                   </Link>
                   <Link to="/auth/login">
-                    <Button className="bg-lime-400 text-black hover:bg-lime-300">Log in</Button>
+                    <Button className="bg-black text-white">Log in</Button>
                   </Link>
                 </div>
               )}
