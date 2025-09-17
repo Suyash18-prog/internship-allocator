@@ -34,17 +34,16 @@ const SignUp = () => {
     }
   };
 
-  const backgroundGradient = `radial-gradient(at 33% 2%, #f344bc 0, transparent 50%), radial-gradient(at 42% 35%, #51c4f6 0, transparent 50%), radial-gradient(at 95% 26%, #cf8af4 0, transparent 50%), radial-gradient(at 91% 68%, #a085e0 0, transparent 50%), radial-gradient(at 47% 56%, #50f83a 0, transparent 50%), radial-gradient(at 11% 71%, #b0f099 0, transparent 50%), radial-gradient(at 66% 59%, #a9df62 0, transparent 50%)`;
-  const backgroundImage = 'https://cdn.builder.io/api/v1/image/assets%2F902415637eba40ef8ec961d0f3cbb8f5%2F2c26372928ef47008dc3a5614f63de0d?format=webp&width=1600';
+  const backgroundImage = 'https://cdn.builder.io/api/v1/image/assets%2F902415637eba40ef8ec961d0f3cbb8f5%2Ff74029a8379147a3a973f550b94cc2d7?format=webp&width=1600';
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{
-      backgroundImage: `${backgroundGradient}, url(${backgroundImage})`,
-      backgroundBlendMode: 'overlay, normal',
+      backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat'
     }}>
-      <div className="w-full max-w-md bg-white/85 backdrop-blur-sm p-8 rounded-lg shadow-xl border border-border">
+      <div className="w-full max-w-md bg-white/70 backdrop-blur-md p-8 rounded-md shadow-2xl border border-border">
         <h2 className="text-3xl font-extrabold mb-2 text-foreground">Make career moves</h2>
         <p className="text-sm text-muted-foreground mb-6">Use your .edu email if you have one.</p>
 
