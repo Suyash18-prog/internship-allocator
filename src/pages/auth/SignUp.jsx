@@ -45,8 +45,8 @@ const SignUp = () => {
     }}>
       <div className="w-full max-w-md bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl border border-border text-black">
         <div className="mb-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-1 tracking-tight" style={{ fontFamily: 'Impact, Haettenschweiler, "Arial Black", sans-serif' }}>Make career moves</h2>
-          <p className="text-sm text-black/75">Use your .edu email if you have one.</p>
+          <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Make career moves</h2>
+          <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}>Use your .edu email if you have one.</p>
         </div>
 
         {message && <p className="mb-4 text-sm text-black/75">{message}</p>}
