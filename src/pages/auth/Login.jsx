@@ -58,7 +58,7 @@ const Login = () => {
       <div className="w-full max-w-md bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl border border-border text-black">
         <div className="mb-6 text-center">
           <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Sign up or log in</h2>
-          <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}>Use your .edu email if you have one.</p>
+          <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}><br /></p>
         </div>
 
         {message && <p className="mb-4 text-sm text-black/75">{message}</p>}
