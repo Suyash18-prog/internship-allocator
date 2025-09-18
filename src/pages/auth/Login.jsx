@@ -81,7 +81,8 @@ const Login = () => {
 
           <div>
             <input
-              className="w-full px-4 py-3 border border-border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
+              style={{ borderColor: '#d4d6ec' }}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
