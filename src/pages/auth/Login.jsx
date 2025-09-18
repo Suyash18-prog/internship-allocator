@@ -55,7 +55,7 @@ const Login = () => {
         backgroundRepeat: 'no-repeat'
       }}
     >
-      <div className="w-full max-w-md bg-transparent p-10 rounded-2xl text-black">
+      <div className="w-full max-w-md bg-transparent p-0 rounded-none shadow-none border-0 text-black">
         <div className="mb-6 text-center">
           <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Sign up or log in</h2>
           <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}><br /></p>
