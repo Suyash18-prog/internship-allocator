@@ -52,7 +52,7 @@ const Login = () => {
         backgroundImage: 'linear-gradient(180deg, #f1f2b5 0%, #135058 100%)'
       }}
     >
-      <div className="w-full max-w-[448px] h-[570px] bg-transparent backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ backgroundImage: 'linear-gradient(180deg, rgba(241, 242, 181, 0.9) 0%, rgba(19, 80, 88, 0.2) 100%)', border: '1px solid #d4d6ec', margin: '-2px', flexGrow: 1 }}>
+      <div className="w-full max-w-[448px] h-[570px] bg-transparent backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ backgroundColor: 'rgba(255, 255, 255, 0.85)', border: '1px solid #d4d6ec', margin: '-2px', flexGrow: 1 }}>
         <div className="mb-6 text-center">
           <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Sign up or log in</h2>
           <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}><br /></p>
