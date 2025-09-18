@@ -49,10 +49,7 @@ const Login = () => {
     <div
       className="min-h-screen flex items-center justify-center px-4 sm:px-6"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundColor: '#135058'
       }}
     >
       <div className="w-full max-w-md bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ border: '1px solid #d4d6ec' }}>
