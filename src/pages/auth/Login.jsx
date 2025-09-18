@@ -49,7 +49,7 @@ const Login = () => {
     <div
       className="min-h-screen flex items-center justify-center px-4 sm:px-6"
       style={{
-        backgroundColor: '#135058'
+        backgroundImage: 'linear-gradient(180deg, #f1f2b5 0%, #135058 100%)'
       }}
     >
       <div className="w-full max-w-[448px] h-[570px] bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ border: '1px solid #d4d6ec', margin: '-2px', flexGrow: 1 }}>
