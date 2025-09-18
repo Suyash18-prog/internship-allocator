@@ -67,7 +67,8 @@ const Login = () => {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" size={18} />
             <input
-              className="w-full pl-9 pr-3 py-3 border border-border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full pl-9 pr-3 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
+              style={{ borderColor: '#d4d6ec' }}
               value={school}
               onChange={(e) => setSchool(e.target.value)}
               type="text"
