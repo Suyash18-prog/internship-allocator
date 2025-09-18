@@ -52,7 +52,7 @@ const Login = () => {
         backgroundColor: '#135058'
       }}
     >
-      <div className="w-full max-w-[600px] bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ border: '1px solid #d4d6ec', margin: '20px 20px 15px', flexGrow: 1 }}>
+      <div className="w-full max-w-[448px] h-[570px] bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ border: '1px solid #d4d6ec', margin: '-2px', flexGrow: 1 }}>
         <div className="mb-6 text-center">
           <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Sign up or log in</h2>
           <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}><br /></p>
