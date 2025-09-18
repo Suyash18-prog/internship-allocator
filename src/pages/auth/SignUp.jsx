@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 
@@ -9,6 +9,28 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const prev = {
+      backgroundImage: document.body.style.backgroundImage,
+      backgroundColor: document.body.style.backgroundColor,
+      backgroundSize: document.body.style.backgroundSize,
+      backgroundRepeat: document.body.style.backgroundRepeat,
+      backgroundPosition: document.body.style.backgroundPosition,
+    };
+    document.body.style.backgroundImage = 'linear-gradient(to top, #a8edea 0%, #fed6e3 100%)';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundRepeat = 'no-repeat';
+    document.body.style.backgroundPosition = 'center';
+
+    return () => {
+      document.body.style.backgroundImage = prev.backgroundImage;
+      document.body.style.backgroundColor = prev.backgroundColor;
+      document.body.style.backgroundSize = prev.backgroundSize;
+      document.body.style.backgroundRepeat = prev.backgroundRepeat;
+      document.body.style.backgroundPosition = prev.backgroundPosition;
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,15 +56,8 @@ const SignUp = () => {
     }
   };
 
-  const backgroundImage = 'https://cdn.builder.io/api/v1/image/assets%2F902415637eba40ef8ec961d0f3cbb8f5%2Ff74029a8379147a3a973f550b94cc2d7?format=webp&width=1600';
-
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6" style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
-    }}>
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6">
       <div className="w-full max-w-md bg-transparent backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ backgroundColor: 'rgba(255, 255, 255, 0.75)', border: '1px solid #d4d6ec' }}>
         <div className="mb-6 text-center">
           <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Make career moves</h2>
