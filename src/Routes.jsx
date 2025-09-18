@@ -19,7 +19,7 @@ const Routes = () => {
       <ScrollToTop />
       <RouterRoutes>
         {/* Define your route here */}
-        <Route path="/" element={<CompanyInternshipPosting />} />
+        <Route path="/" element={<Navigate to="/home-landing" replace />} />
         <Route path="/home-landing" element={<HomeLanding />} />
         <Route path="/internship-details-view" element={<InternshipDetailsView />} />
         <Route path="/company-internship-posting" element={<CompanyInternshipPosting />} />
