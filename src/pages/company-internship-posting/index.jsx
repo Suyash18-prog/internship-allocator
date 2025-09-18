@@ -12,6 +12,7 @@ import DurationSelector from './components/DurationSelector';
 import StipendInput from './components/StipendInput';
 import FormActions from './components/FormActions';
 import CompanyInfoSection from './components/CompanyInfoSection';
+import { supabase } from '../../lib/supabaseClient';
 
 const CompanyInternshipPosting = () => {
   const navigate = useNavigate();
@@ -139,18 +140,37 @@ const CompanyInternshipPosting = () => {
     }
 
     setIsSubmitting(true);
-    
+    setErrors(prev => ({ ...prev, submit: '' }));
+
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Clear draft from localStorage
+      const { data: sessionData } = await supabase.auth.getSession();
+      const uid = sessionData?.session?.user?.id || null;
+      const payload = {
+        company_name: formData.companyName,
+        company_website: formData.companyWebsite || null,
+        hr_contact_name: formData.hrContactName,
+        contact_email: formData.contactEmail,
+        company_size: formData.companySize || null,
+        title: formData.internshipTitle,
+        skills: formData.requiredSkills || [],
+        location: formData.location,
+        sector: formData.sector,
+        duration: String(formData.duration),
+        capacity: parseInt(formData.capacity, 10),
+        stipend: formData.stipend ? parseInt(formData.stipend, 10) : null,
+        description: formData.description,
+        requirements: formData.requirements || null,
+        benefits: formData.benefits || null,
+        posted_by: uid,
+        status: 'active',
+        posted_at: new Date().toISOString()
+      };
+
+      const { error } = await supabase.from('internships').insert(payload);
+      if (error) throw error;
+
       localStorage.removeItem('internship-draft');
-      
-      // Show success message
       setShowSuccessMessage(true);
-      
-      // Reset form
       setFormData({
         companyName: '',
         companyWebsite: '',
@@ -169,15 +189,14 @@ const CompanyInternshipPosting = () => {
         benefits: ''
       });
 
-      // Hide success message after 3 seconds and navigate
       setTimeout(() => {
         setShowSuccessMessage(false);
         navigate('/matchmaking-dashboard');
       }, 3000);
-      
+
     } catch (error) {
       console.error('Error posting internship:', error);
-      setErrors({ submit: 'Failed to post internship. Please try again.' });
+      setErrors({ submit: error?.message || 'Failed to post internship. Please try again.' });
     } finally {
       setIsSubmitting(false);
     }

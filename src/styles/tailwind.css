@@ -6,45 +6,45 @@
 
 @layer base {
   :root {
-    /* Core Colors */
-    --color-background: #FAFBFC; /* gray-50 */
-    --color-foreground: #1E293B; /* slate-800 */
-    --color-border: #E2E8F0; /* slate-200 */
-    --color-input: #FFFFFF; /* white */
+    /* Core Colors - Dark Theme */
+    --color-background: #0f172a; /* slate-900 */
+    --color-foreground: #E2E8F0; /* slate-200 */
+    --color-border: #334155; /* slate-700 */
+    --color-input: #111827; /* gray-900 */
     --color-ring: #2563EB; /* blue-600 */
-    
+
     /* Card Colors */
-    --color-card: #FFFFFF; /* white */
-    --color-card-foreground: #1E293B; /* slate-800 */
-    
+    --color-card: #111827; /* gray-900 */
+    --color-card-foreground: #E2E8F0; /* slate-200 */
+
     /* Popover Colors */
-    --color-popover: #FFFFFF; /* white */
-    --color-popover-foreground: #1E293B; /* slate-800 */
-    
+    --color-popover: #111827; /* gray-900 */
+    --color-popover-foreground: #E2E8F0; /* slate-200 */
+
     /* Muted Colors */
-    --color-muted: #F1F5F9; /* slate-100 */
-    --color-muted-foreground: #64748B; /* slate-500 */
-    
+    --color-muted: #1F2937; /* gray-800 */
+    --color-muted-foreground: #94A3B8; /* slate-400 */
+
     /* Primary Colors */
     --color-primary: #2563EB; /* blue-600 */
     --color-primary-foreground: #FFFFFF; /* white */
-    
+
     /* Secondary Colors */
-    --color-secondary: #64748B; /* slate-500 */
+    --color-secondary: #475569; /* slate-600 */
     --color-secondary-foreground: #FFFFFF; /* white */
-    
+
     /* Accent Colors */
     --color-accent: #F59E0B; /* amber-500 */
     --color-accent-foreground: #FFFFFF; /* white */
-    
+
     /* Success Colors */
     --color-success: #059669; /* emerald-600 */
     --color-success-foreground: #FFFFFF; /* white */
-    
+
     /* Warning Colors */
     --color-warning: #D97706; /* amber-600 */
     --color-warning-foreground: #FFFFFF; /* white */
-    
+
     /* Error/Destructive Colors */
     --color-error: #DC2626; /* red-600 */
     --color-error-foreground: #FFFFFF; /* white */
@@ -66,18 +66,46 @@
   .animate-fade-in {
     animation: fadeIn 150ms ease-out;
   }
-  
+
   .animate-scale-in {
     animation: scaleIn 150ms ease-out;
   }
-  
+
   .animate-slide-down {
     animation: slideDown 200ms ease-out;
   }
-  
+
   .animate-pulse-gentle {
     animation: pulseGentle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
+}
+
+@layer utilities {
+  /* Use CSS variables for duration and play-state to allow hover and JS control */
+  .animate-marquee {
+    animation-name: marquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--marquee-duration, 32s);
+    animation-play-state: var(--marquee-play, running);
+  }
+  .animate-marquee-reverse {
+    animation-name: marqueeReverse;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--marquee-duration, 32s);
+    animation-play-state: var(--marquee-play, running);
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 @keyframes fadeIn {

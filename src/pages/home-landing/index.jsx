@@ -7,6 +7,7 @@ import FeaturesSection from './components/FeaturesSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import QuickAccessSection from './components/QuickAccessSection';
 import FooterSection from './components/FooterSection';
+import CompaniesMarquee from './components/CompaniesMarquee';
 
 const HomeLanding = () => {
   useEffect(() => {
@@ -36,6 +37,9 @@ const HomeLanding = () => {
       <main className="pt-16">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Companies Scroller */}
+        <CompaniesMarquee />
 
         {/* Platform Statistics */}
         <StatsSection />
