@@ -43,10 +43,10 @@ const SignUp = () => {
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}>
-      <div className="w-full max-w-md bg-white/85 backdrop-blur-lg p-10 rounded-2xl shadow-2xl border border-border text-black">
+      <div className="w-full max-w-md bg-transparent backdrop-blur-lg p-10 rounded-2xl shadow-2xl text-black" style={{ backgroundColor: 'rgba(255, 255, 255, 0.75)', border: '1px solid #d4d6ec' }}>
         <div className="mb-6 text-center">
           <h2 className="mb-1 tracking-tight" style={{ fontFamily: '"Sansplomb", Inter, system-ui, sans-serif', fontSize: '60px', lineHeight: '1', color: '#101f2c' }}>Make career moves</h2>
-          <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384' }}>Use your .edu email if you have one.</p>
+          <p className="text-sm" style={{ fontFamily: '"Sussie Int I", Inter, system-ui, sans-serif', fontSize: '18px', color: '#606384', display: 'none' }}>Use your .edu email if you have one.</p>
         </div>
 
         {message && <p className="mb-4 text-sm text-black/75">{message}</p>}
@@ -55,11 +55,12 @@ const SignUp = () => {
           <div>
             <label className="block text-sm mb-2 text-black/75">Email address</label>
             <input
-              className="w-full px-4 py-3 border border-border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
+              style={{ borderColor: '#d4d6ec' }}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
-              placeholder="you@college.edu"
+              placeholder="you@college.com"
               required
             />
           </div>
