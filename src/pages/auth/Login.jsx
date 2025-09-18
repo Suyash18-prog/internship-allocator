@@ -28,6 +28,21 @@ const Login = () => {
     }
   };
 
+  const handleGoogle = async () => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: `${window.location.origin}/home-landing` }
+      });
+      if (error) throw error;
+    } catch (err) {
+      setMessage(err.message || 'Google sign-in failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const backgroundImage = 'https://cdn.builder.io/api/v1/image/assets%2F902415637eba40ef8ec961d0f3cbb8f5%2Ff74029a8379147a3a973f550b94cc2d7?format=webp&width=1600';
 
   return (
@@ -86,6 +101,21 @@ const Login = () => {
               {loading ? 'Sending…' : 'Next'}
             </button>
           </div>
+
+          <div className="flex items-center gap-3 text-black/50">
+            <div className="h-px bg-black/20 flex-1" />
+            <span className="text-xs">or continue with</span>
+            <div className="h-px bg-black/20 flex-1" />
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="w-full px-4 py-3 bg-white text-black border border-border rounded-lg hover:bg-black/5 transition"
+            disabled={loading}
+          >
+            Continue with Google
+          </button>
 
           <div className="text-center text-xs text-black/70">
             <a className="underline" href="#">UK or EU? Sign up or log in</a>
