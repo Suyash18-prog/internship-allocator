@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import Header from '../../components/ui/Header';
+import FooterSection from '../home-landing/components/FooterSection';
 import ProfileHeader from './components/ProfileHeader';
 import ProfileViewSection from './components/ProfileViewSection';
 import ProfileEditForm from './components/ProfileEditForm';
@@ -161,10 +162,9 @@ const StudentProfileManagement = () => {
         <title>Student Profile Management - PM Internship Matcher</title>
         <meta name="description" content="Manage your student profile, update skills and preferences, and optimize your internship matching results." />
       </Helmet>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">
         <Header />
-        
-        <main className="pt-16">
+        <main className="flex-1 pt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Success Message */}
             {showSuccessMessage && (
@@ -276,6 +276,7 @@ const StudentProfileManagement = () => {
             </div>
           </div>
         </main>
+        <FooterSection />
       </div>
     </>
   );

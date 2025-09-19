@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/ui/Header';
+import FooterSection from '../home-landing/components/FooterSection';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
 import MatchCard from './components/MatchCard';
@@ -9,6 +10,20 @@ import StudentProfile from './components/StudentProfile';
 import MatchingStats from './components/MatchingStats';
 import RecentActivity from './components/RecentActivity';
 
+const DummyDashboard = () => (
+  <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">
+    <Header />
+    <main className="flex-1 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center py-24">
+          <h2 className="text-2xl font-bold mb-4">Welcome to the Dashboard!</h2>
+          <p>No student profile found. Please complete your registration.</p>
+        </div>
+      </div>
+    </main>
+    <FooterSection />
+  </div>
+);
 const MatchmakingDashboard = () => {
   const navigate = useNavigate();
   const [filters, setFilters] = useState({
@@ -25,29 +40,21 @@ const MatchmakingDashboard = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Mock student data
-  const studentData = {
-    id: 1,
-    name: "Alex Kumar",
-    location: "Mumbai",
-    sector: "Technology",
-    skills: ["React", "JavaScript", "Python", "Node.js", "MongoDB", "AWS", "Git", "Docker", "TypeScript", "GraphQL"],
-    profileCompletion: 85,
-    totalMatches: 47,
-    newMatches: 8,
-    applications: 12,
-    interviews: 3,
-    education: {
-      degree: "B.Tech Computer Science",
-      institution: "IIT Mumbai",
-      year: "2024"
-    },
-    preferences: {
-      duration: "3-6 months",
-      workMode: "Hybrid",
-      stipend: "₹25,000 - ₹50,000"
-    }
-  };
+  // Fetch student data from backend
+  const [studentData, setStudentData] = useState(null);
+  const [fetchError, setFetchError] = useState(false);
+  useEffect(() => {
+    // For demo: use student ID 1. Replace with real user ID from auth in production.
+    fetch('/api/students/1')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data)) {
+          setStudentData(data[0]);
+        } else {
+          setStudentData(data);
+        }
+      });
+  }, []);
 
   // Mock internship data with match scores
   const mockInternships = [
@@ -226,23 +233,6 @@ const MatchmakingDashboard = () => {
           !internship?.company?.toLowerCase()?.includes(filters?.search?.toLowerCase())) {
         return false;
       }
-      
-      // Location filter
-      if (filters?.location && internship?.location !== filters?.location) {
-        return false;
-      }
-      
-      // Sector filter
-      if (filters?.sector && internship?.sector !== filters?.sector) {
-        return false;
-      }
-      
-      // Minimum score filter
-      if (filters?.minScore && internship?.matchScore < parseInt(filters?.minScore)) {
-        return false;
-      }
-      
-      // Duration filter
       if (filters?.duration && internship?.duration !== filters?.duration) {
         return false;
       }
@@ -335,27 +325,30 @@ const MatchmakingDashboard = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <div className="pt-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">Finding Your Perfect Matches</h3>
-                <p className="text-muted-foreground">Analyzing internship opportunities based on your profile...</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+  // if (isLoading || !studentData) {
+  //   return (
+  //     <div className="min-h-screen bg-background">
+  //       <Header />
+  //       <div className="pt-16">
+  //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  //           <div className="flex items-center justify-center min-h-[400px]">
+  //             <div className="text-center">
+  //               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+  //               <h3 className="text-lg font-semibold text-foreground mb-2">Finding Your Perfect Matches</h3>
+  //               <p className="text-muted-foreground">Analyzing internship opportunities based on your profile...</p>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+  if(fetchError || studentData){
+    return <DummyDashboard/>
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background animate-fade-in delay-600">
       <Header />
       <div className="pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -449,12 +442,13 @@ const MatchmakingDashboard = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     {topMatches?.map((internship, index) => (
-                      <MatchCard
-                        key={internship?.id}
-                        internship={internship}
-                        rank={index + 1}
-                        isTopMatch={true}
-                      />
+                      <div className="animate-fade-in" style={{ animationDelay: `${0.7 + index * 0.1}s` }} key={internship?.id}>
+                        <MatchCard
+                          internship={internship}
+                          rank={index + 1}
+                          isTopMatch={true}
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -466,12 +460,13 @@ const MatchmakingDashboard = () => {
                   <h3 className="text-lg font-semibold text-foreground mb-4">More Matches</h3>
                   <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
                     {otherMatches?.map((internship, index) => (
-                      <MatchCard
-                        key={internship?.id}
-                        internship={internship}
-                        rank={index + 4}
-                        isTopMatch={false}
-                      />
+                      <div className="animate-fade-in" style={{ animationDelay: `${1 + index * 0.07}s` }} key={internship?.id}>
+                        <MatchCard
+                          internship={internship}
+                          rank={index + 4}
+                          isTopMatch={false}
+                        />
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -500,7 +495,7 @@ const MatchmakingDashboard = () => {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-6 animate-fade-in delay-800">
               {/* Matching Statistics */}
               <MatchingStats stats={matchingStats} />
 

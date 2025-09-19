@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../../components/ui/Header';
+import FooterSection from '../home-landing/components/FooterSection';
 import InternshipHeader from './components/InternshipHeader';
 import MatchScoreCard from './components/MatchScoreCard';
 import SkillsMatchSection from './components/SkillsMatchSection';
@@ -200,24 +201,17 @@ const InternshipDetailsView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">
         <Header />
-        <div className="pt-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="animate-pulse space-y-6">
-              <div className="bg-card border border-border rounded-lg p-6">
-                <div className="flex items-start gap-6">
-                  <div className="w-20 h-20 bg-muted rounded-lg"></div>
-                  <div className="flex-1 space-y-4">
-                    <div className="h-8 bg-muted rounded w-3/4"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
-                    <div className="flex gap-4">
-                      <div className="h-6 bg-muted rounded w-24"></div>
-                      <div className="h-6 bg-muted rounded w-24"></div>
-                      <div className="h-6 bg-muted rounded w-24"></div>
-                    </div>
-                  </div>
-                </div>
+        <main className="flex-1 pt-16">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="animate-pulse space-y-8">
+              <div className="h-8 bg-muted rounded w-3/4"></div>
+              <div className="h-4 bg-muted rounded w-1/2"></div>
+              <div className="flex gap-4">
+                <div className="h-6 bg-muted rounded w-24"></div>
+                <div className="h-6 bg-muted rounded w-24"></div>
+                <div className="h-6 bg-muted rounded w-24"></div>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2 space-y-6">
@@ -228,7 +222,8 @@ const InternshipDetailsView = () => {
               </div>
             </div>
           </div>
-        </div>
+        </main>
+        <FooterSection />
       </div>
     );
   }

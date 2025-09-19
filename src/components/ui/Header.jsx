@@ -1,55 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
-import { supabase } from '../../lib/supabaseClient';
+
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef();
   const location = useLocation();
 
   useEffect(() => {
-    let mounted = true;
-    const init = async () => {
-      try {
-        const { data } = await supabase.auth.getUser();
-        const user = data?.user;
-        if (user && mounted) {
-          setUserProfile({
-            name: user.user_metadata?.full_name || user.email,
-            profileCompletion: user.user_metadata?.profileCompletion || 85,
-            recentMatches: user.user_metadata?.recentMatches || 3,
-            role: user.user_metadata?.role || 'student'
-          });
-        } else if (mounted) {
-          setUserProfile(null);
-        }
-      } catch (err) {
-        console.error('Auth init error', err);
-      }
-    };
-    init();
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) {
-        const u = session.user;
-        setUserProfile({
-          name: u.user_metadata?.full_name || u.email,
-          profileCompletion: u.user_metadata?.profileCompletion || 85,
-          recentMatches: u.user_metadata?.recentMatches || 3,
-          role: u.user_metadata?.role || 'student'
-        });
-      } else {
-        setUserProfile(null);
-      }
-    });
-
-    return () => {
-      mounted = false;
-      try { listener?.subscription?.unsubscribe?.(); } catch (e) {}
-    };
+    // TODO: Replace with JWT-based user fetch
+    // For demo, try to get user from localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    setUserProfile(user);
   }, []);
+
+  // Fetch notifications for logged-in user
+  useEffect(() => {
+    if (!userProfile) return;
+    const token = localStorage.getItem('token');
+    fetch('/api/notifications', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => setNotifications(data.reverse?.() || []))
+      .catch(() => setNotifications([]));
+  }, [userProfile]);
+
+  // Close notification dropdown on outside click
+  useEffect(() => {
+    function handleClick(e) {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setNotifOpen(false);
+      }
+    }
+    if (notifOpen) document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, [notifOpen]);
 
   const navigationItems = [
     {
@@ -97,9 +88,23 @@ const Header = () => {
   };
 
   const isHome = location?.pathname === '/home-landing';
+  const isStudentDashboard = location?.pathname === '/student-dashboard';
   const headerClasses = isHome
     ? 'fixed top-0 left-0 right-0 z-100 bg-transparent border-transparent font-noi'
-    : 'fixed top-0 left-0 right-0 z-100 bg-card border-b border-border font-noi';
+    : isStudentDashboard
+      ? 'fixed top-0 left-0 right-0 z-100 bg-black border-b border-black text-white font-noi'
+      : 'fixed top-0 left-0 right-0 z-100 bg-card border-b border-border font-noi';
+
+  // Apply a black theme to the profile area when on student dashboard
+  const profileContainerClass = isStudentDashboard
+    ? 'flex items-center space-x-3 px-4 py-2 bg-black text-white rounded-lg'
+    : 'flex items-center space-x-3 px-4 py-2 bg-muted rounded-lg';
+  const avatarClass = isStudentDashboard
+    ? 'flex items-center justify-center w-8 h-8 bg-black rounded-full border border-white'
+    : 'flex items-center justify-center w-8 h-8 bg-primary rounded-full';
+  const avatarTextClass = isStudentDashboard ? 'text-sm font-medium text-white' : 'text-sm font-medium text-primary-foreground';
+  const nameTextClass = isStudentDashboard ? 'font-medium text-white' : 'font-medium text-foreground';
+  const metaTextClass = isStudentDashboard ? 'text-xs text-white/80' : 'text-xs text-muted-foreground';
 
   const homeTabs = [
     { label: 'Students', path: '/matchmaking-dashboard' },
@@ -143,13 +148,13 @@ const Header = () => {
                 <span className="text-lime-400 text-xl md:text-2xl font-semibold">InterNova</span>
               ) : (
                 <>
-                  <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-lg">
-                    <Icon name="Briefcase" size={24} color="white" />
-                  </div>
-                  <div className="hidden sm:block">
-                    <h1 className="text-xl font-semibold text-foreground">PM Internship</h1>
-                    <p className="text-xs text-muted-foreground -mt-1">Matcher</p>
-                  </div>
+                      <div className={isStudentDashboard ? 'flex items-center justify-center w-10 h-10 bg-white/5 rounded-lg' : 'flex items-center justify-center w-10 h-10 bg-primary rounded-lg'}>
+                        <Icon name="Briefcase" size={24} color={isStudentDashboard ? 'white' : 'white'} />
+                      </div>
+                      <div className="hidden sm:block">
+                        <h1 className={isStudentDashboard ? 'text-xl font-semibold text-white' : 'text-xl font-semibold text-foreground'}>PM Internship</h1>
+                        <p className={isStudentDashboard ? 'text-xs text-white/80 -mt-1' : 'text-xs text-muted-foreground -mt-1'}>Matcher</p>
+                      </div>
                 </>
               )}
             </Link>
@@ -162,7 +167,7 @@ const Header = () => {
                 <Link
                   key={`${tab.label}-${tab.path}`}
                   to={tab.path}
-                  className="px-3 py-1.5 rounded-full text-sm text-foreground/80 hover:text-foreground hover:bg-muted transition"
+                  className={isStudentDashboard ? 'px-3 py-1.5 rounded-full text-sm text-white/90 hover:text-white hover:bg-white/5 transition' : 'px-3 py-1.5 rounded-full text-sm text-foreground/80 hover:text-foreground hover:bg-muted transition'}
                 >
                   {tab.label}
                 </Link>
@@ -219,19 +224,69 @@ const Header = () => {
           {!isHome && (
             <div className="hidden md:flex items-center space-x-4">
               {userProfile ? (
-                <div className="flex items-center space-x-3 px-4 py-2 bg-muted rounded-lg">
-                  <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
-                    <span className="text-sm font-medium text-primary-foreground">
-                      {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
-                    </span>
+                <>
+                  {/* Notification Bell */}
+                  <div className="relative" ref={notifRef}>
+                    <button
+                      className="relative p-2 rounded-full hover:bg-muted focus:outline-none"
+                      onClick={() => setNotifOpen(v => !v)}
+                      aria-label="Notifications"
+                    >
+                      <Icon name="Bell" size={22} />
+                      {notifications.some(n => !n.read) && (
+                        <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                      )}
+                    </button>
+                    {notifOpen && (
+                      <div className="absolute right-0 mt-2 w-80 max-w-xs bg-white border border-border rounded-lg shadow-lg z-50 overflow-hidden animate-fade-in">
+                        <div className="p-3 border-b border-border font-semibold text-base bg-muted">Notifications</div>
+                        <div className="max-h-80 overflow-y-auto divide-y divide-border">
+                          {notifications.length === 0 && (
+                            <div className="p-4 text-center text-muted-foreground text-sm">No notifications yet.</div>
+                          )}
+                          {notifications.map(n => (
+                            <div
+                              key={n.id}
+                              className={`px-4 py-3 text-sm cursor-pointer transition bg-white hover:bg-muted ${n.read ? '' : 'font-semibold'}`}
+                              onClick={async () => {
+                                if (!n.read) {
+                                  const token = localStorage.getItem('token');
+                                  await fetch(`/api/notifications/${n.id}/read`, {
+                                    method: 'PUT',
+                                    headers: { Authorization: `Bearer ${token}` }
+                                  });
+                                  setNotifications(prev => prev.map(x => x.id === n.id ? { ...x, read: true } : x));
+                                }
+                              }}
+                            >
+                              <div className="flex items-start gap-2">
+                                <Icon name={n.type === 'application-status' ? 'CheckCircle' : 'Info'} size={18} className="mt-0.5" />
+                                <div>
+                                  <div>{n.message}</div>
+                                  <div className="text-xs text-muted-foreground mt-1">{new Date(n.createdAt).toLocaleString()}</div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="text-sm">
-                    <p className="font-medium text-foreground">{userProfile?.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      Profile {userProfile?.profileCompletion}% • {userProfile?.recentMatches} new matches
-                    </p>
+                  {/* User Profile */}
+                  <div className={profileContainerClass}>
+                    <div className={avatarClass}>
+                      <span className={avatarTextClass}>
+                        {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                      </span>
+                    </div>
+                    <div className="text-sm">
+                      <p className={nameTextClass}>{userProfile?.name}</p>
+                      <p className={metaTextClass}>
+                        Profile {userProfile?.profileCompletion}% • {userProfile?.recentMatches} new matches
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </>
               ) : (
                 <div className="flex items-center space-x-3">
                   <Link to="/auth/signup">
@@ -303,22 +358,22 @@ const Header = () => {
 
                 {/* User Context - Mobile (if logged in) */}
                 {userProfile && (
-                  <div className="flex items-center space-x-3 p-3 bg-muted rounded-lg mb-4">
-                    <div className="flex items-center justify-center w-10 h-10 bg-primary rounded-full">
-                      <span className="text-sm font-medium text-primary-foreground">
-                        {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
-                      </span>
+                  <div className={isStudentDashboard ? 'flex items-center space-x-3 p-3 bg-black text-white rounded-lg mb-4' : 'flex items-center space-x-3 p-3 bg-muted rounded-lg mb-4'}>
+                      <div className={isStudentDashboard ? 'flex items-center justify-center w-10 h-10 bg-black rounded-full border border-white' : 'flex items-center justify-center w-10 h-10 bg-primary rounded-full'}>
+                        <span className={isStudentDashboard ? 'text-sm font-medium text-white' : 'text-sm font-medium text-primary-foreground'}>
+                          {userProfile?.name?.split(' ')?.map(n => n?.[0])?.join('')}
+                        </span>
+                      </div>
+                      <div>
+                        <p className={isStudentDashboard ? 'font-medium text-white' : 'font-medium text-foreground'}>{userProfile?.name}</p>
+                        <p className={isStudentDashboard ? 'text-xs text-white/80' : 'text-xs text-muted-foreground'}>
+                          Profile {userProfile?.profileCompletion}% complete
+                        </p>
+                        <p className="text-xs text-accent font-medium">
+                          {userProfile?.recentMatches} new matches available
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-foreground">{userProfile?.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Profile {userProfile?.profileCompletion}% complete
-                      </p>
-                      <p className="text-xs text-accent font-medium">
-                        {userProfile?.recentMatches} new matches available
-                      </p>
-                    </div>
-                  </div>
                 )}
 
                 {/* Primary Navigation - Mobile */}

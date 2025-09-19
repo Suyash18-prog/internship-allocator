@@ -15,7 +15,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden py-16 md:py-24 lg:py-28">
+    <section className="relative overflow-hidden py-16 md:py-24 lg:py-28 animate-fade-in">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent pointer-events-none" />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
