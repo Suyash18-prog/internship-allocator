@@ -107,28 +107,28 @@ const RegistrationForm = () => {
     setIsLoading(true);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Store student data in localStorage for demo purposes
-      const studentData = {
-        id: Date.now(),
-        ...formData,
-        registrationDate: new Date()?.toISOString(),
-        profileCompletion: 100
-      };
-      
-      const existingStudents = JSON.parse(localStorage.getItem('students') || '[]');
-      existingStudents?.push(studentData);
-      localStorage.setItem('students', JSON.stringify(existingStudents));
-      localStorage.setItem('currentStudent', JSON.stringify(studentData));
-
+      // Send student data to backend
+      const response = await fetch(`/api/students`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          college: formData.college,
+          course: formData.course,
+          graduationYear: formData.graduationYear,
+          skills: formData.skills,
+          location: formData.location,
+          sectors: formData.sectors,
+          registrationDate: new Date()?.toISOString(),
+          profileCompletion: 100
+        })
+      });
+      if (!response.ok) throw new Error('Failed to save profile');
       // Success feedback
       alert('Registration successful! Redirecting to matchmaking dashboard...');
-      
-      // Navigate to matchmaking dashboard
       navigate('/matchmaking-dashboard');
-      
     } catch (error) {
       console.error('Registration failed:', error);
       alert('Registration failed. Please try again.');

@@ -11,8 +11,21 @@ const ProfileEditForm = ({ student, onSave, onCancel, isLoading }) => {
     phone: student?.phone,
     location: student?.location,
     skills: student?.skills?.join(', '),
-    sectors: student?.sectors
+    sectors: student?.sectors,
+    notificationPrefs: student?.notificationPrefs || {
+      applicationStatus: true,
+      general: true
+    }
   });
+  const handleNotifPrefChange = (type) => {
+    setFormData(prev => ({
+      ...prev,
+      notificationPrefs: {
+        ...prev.notificationPrefs,
+        [type]: !prev.notificationPrefs[type]
+      }
+    }));
+  };
 
   const [errors, setErrors] = useState({});
 
@@ -110,7 +123,8 @@ const ProfileEditForm = ({ student, onSave, onCancel, isLoading }) => {
       const updatedStudent = {
         ...student,
         ...formData,
-        skills: formData?.skills?.split(',')?.map(s => s?.trim())?.filter(s => s)
+        skills: formData?.skills?.split(',')?.map(s => s?.trim())?.filter(s => s),
+        notificationPrefs: formData.notificationPrefs
       };
       onSave(updatedStudent);
     }
@@ -214,6 +228,33 @@ const ProfileEditForm = ({ student, onSave, onCancel, isLoading }) => {
             description="Choose sectors you're interested in for internships"
             required
           />
+        </div>
+
+        {/* Notification Settings */}
+        <div>
+          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4">
+            Notification Settings
+          </h3>
+          <div className="flex flex-col gap-3">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.notificationPrefs.applicationStatus}
+                onChange={() => handleNotifPrefChange('applicationStatus')}
+                className="form-checkbox h-4 w-4 text-primary"
+              />
+              <span className="text-sm">Application status updates</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={formData.notificationPrefs.general}
+                onChange={() => handleNotifPrefChange('general')}
+                className="form-checkbox h-4 w-4 text-primary"
+              />
+              <span className="text-sm">General platform updates</span>
+            </label>
+          </div>
         </div>
 
         {/* Action Buttons */}

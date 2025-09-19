@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/ui/Header';
+import FooterSection from '../home-landing/components/FooterSection';
 import Input from '../../components/ui/Input';
 
 import Icon from '../../components/AppIcon';
@@ -12,29 +14,29 @@ import DurationSelector from './components/DurationSelector';
 import StipendInput from './components/StipendInput';
 import FormActions from './components/FormActions';
 import CompanyInfoSection from './components/CompanyInfoSection';
-import { supabase } from '../../lib/supabaseClient';
+
 
 const CompanyInternshipPosting = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    companyName: '',
-    companyWebsite: '',
-    hrContactName: '',
-    contactEmail: '',
-    companySize: '',
-    internshipTitle: '',
-    requiredSkills: [],
-    location: '',
-    sector: '',
-    duration: '',
-    capacity: '',
-    stipend: '',
-    description: '',
-    requirements: '',
-    benefits: ''
+  const { register, handleSubmit, setValue, getValues, formState: { errors }, reset, setError } = useForm({
+    defaultValues: {
+      companyName: '',
+      companyWebsite: '',
+      hrContactName: '',
+      contactEmail: '',
+      companySize: '',
+      internshipTitle: '',
+      requiredSkills: [],
+      location: '',
+      sector: '',
+      duration: '',
+      capacity: '',
+      stipend: '',
+      description: '',
+      requirements: '',
+      benefits: ''
+    }
   });
-
-  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -67,136 +69,53 @@ const CompanyInternshipPosting = () => {
     if (savedDraft) {
       try {
         const draftData = JSON.parse(savedDraft);
-        setFormData(draftData);
+        reset(draftData);
       } catch (error) {
         console.error('Error loading draft:', error);
       }
     }
-  }, []);
+  }, [reset]);
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-    
-    // Clear error when user starts typing
-    if (errors?.[field]) {
-      setErrors(prev => ({
-        ...prev,
-        [field]: ''
-      }));
-    }
+    setValue(field, value);
   };
 
-  const validateForm = () => {
-    const newErrors = {};
 
-    // Company Information Validation
-    if (!formData?.companyName?.trim()) {
-      newErrors.companyName = 'Company name is required';
-    }
-    if (!formData?.hrContactName?.trim()) {
-      newErrors.hrContactName = 'HR contact name is required';
-    }
-    if (!formData?.contactEmail?.trim()) {
-      newErrors.contactEmail = 'Contact email is required';
-    } else if (!/\S+@\S+\.\S+/?.test(formData?.contactEmail)) {
-      newErrors.contactEmail = 'Please enter a valid email address';
-    }
 
-    // Internship Details Validation
-    if (!formData?.internshipTitle?.trim()) {
-      newErrors.internshipTitle = 'Internship title is required';
-    }
-    if (formData?.requiredSkills?.length === 0) {
-      newErrors.requiredSkills = 'At least one skill is required';
-    }
-    if (!formData?.location) {
-      newErrors.location = 'Location is required';
-    }
-    if (!formData?.sector) {
-      newErrors.sector = 'Sector is required';
-    }
-    if (!formData?.duration) {
-      newErrors.duration = 'Duration is required';
-    }
-    if (!formData?.capacity || parseInt(formData?.capacity) < 1) {
-      newErrors.capacity = 'Capacity must be at least 1';
-    }
-    if (!formData?.description?.trim()) {
-      newErrors.description = 'Description is required';
-    } else if (formData?.description?.trim()?.length < 50) {
-      newErrors.description = 'Description must be at least 50 characters';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors)?.length === 0;
-  };
-
-  const handleSubmit = async () => {
-    if (!validateForm()) {
-      return;
-    }
-
+  const onSubmit = async (data) => {
     setIsSubmitting(true);
-    setErrors(prev => ({ ...prev, submit: '' }));
-
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const uid = sessionData?.session?.user?.id || null;
-      const payload = {
-        company_name: formData.companyName,
-        company_website: formData.companyWebsite || null,
-        hr_contact_name: formData.hrContactName,
-        contact_email: formData.contactEmail,
-        company_size: formData.companySize || null,
-        title: formData.internshipTitle,
-        skills: formData.requiredSkills || [],
-        location: formData.location,
-        sector: formData.sector,
-        duration: String(formData.duration),
-        capacity: parseInt(formData.capacity, 10),
-        stipend: formData.stipend ? parseInt(formData.stipend, 10) : null,
-        description: formData.description,
-        requirements: formData.requirements || null,
-        benefits: formData.benefits || null,
-        posted_by: uid,
-        status: 'active',
-        posted_at: new Date().toISOString()
-      };
-
-      const { error } = await supabase.from('internships').insert(payload);
-      if (error) throw error;
-
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/internships', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          title: data.internshipTitle,
+          company: data.companyName,
+          location: data.location,
+          sector: data.sector,
+          duration: String(data.duration),
+          stipend: data.stipend ? parseInt(data.stipend, 10) : null,
+          description: data.description,
+          requirements: data.requirements || null,
+          benefits: data.benefits || null,
+          capacity: parseInt(data.capacity, 10),
+          postedBy: 1 // TODO: Replace with actual user id
+        })
+      });
+      if (!response.ok) throw new Error('Failed to post internship');
       localStorage.removeItem('internship-draft');
       setShowSuccessMessage(true);
-      setFormData({
-        companyName: '',
-        companyWebsite: '',
-        hrContactName: '',
-        contactEmail: '',
-        companySize: '',
-        internshipTitle: '',
-        requiredSkills: [],
-        location: '',
-        sector: '',
-        duration: '',
-        capacity: '',
-        stipend: '',
-        description: '',
-        requirements: '',
-        benefits: ''
-      });
-
+      reset();
       setTimeout(() => {
         setShowSuccessMessage(false);
         navigate('/matchmaking-dashboard');
       }, 3000);
-
     } catch (error) {
-      console.error('Error posting internship:', error);
-      setErrors({ submit: error?.message || 'Failed to post internship. Please try again.' });
+      setError('submit', { type: 'manual', message: error.message || 'Failed to post internship. Please try again.' });
     } finally {
       setIsSubmitting(false);
     }
@@ -204,20 +123,12 @@ const CompanyInternshipPosting = () => {
 
   const handleSaveDraft = async () => {
     setIsSavingDraft(true);
-    
     try {
-      // Save to localStorage
-      localStorage.setItem('internship-draft', JSON.stringify(formData));
-      
-      // Simulate API call
+      localStorage.setItem('internship-draft', JSON.stringify(getValues()));
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Show temporary success feedback
-      const originalText = 'Save Draft';
       setTimeout(() => {
         setIsSavingDraft(false);
       }, 1000);
-      
     } catch (error) {
       console.error('Error saving draft:', error);
     } finally {
@@ -225,37 +136,33 @@ const CompanyInternshipPosting = () => {
     }
   };
 
-  const canSubmit = formData?.companyName && formData?.internshipTitle && 
-                   formData?.requiredSkills?.length > 0 && formData?.location && 
-                   formData?.sector && formData?.duration && formData?.capacity && 
-                   formData?.description && formData?.hrContactName && formData?.contactEmail;
+  const canSubmit = getValues('companyName') && getValues('internshipTitle') && 
+                   getValues('requiredSkills')?.length > 0 && getValues('location') && 
+                   getValues('sector') && getValues('duration') && getValues('capacity') && 
+                   getValues('description') && getValues('hrContactName') && getValues('contactEmail');
 
   if (showSuccessMessage) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">
         <Header />
-        <div className="pt-16">
-          <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
-            <div className="max-w-md w-full text-center">
-              <div className="bg-card rounded-lg border border-border p-8 shadow-sm">
-                <div className="flex items-center justify-center w-16 h-16 bg-success rounded-full mx-auto mb-4">
-                  <Icon name="Check" size={32} color="white" />
-                </div>
-                <h2 className="text-2xl font-semibold text-foreground mb-2">
-                  Internship Posted Successfully!
-                </h2>
-                <p className="text-muted-foreground mb-6">
-                  Your internship opportunity has been posted and is now visible to students. 
-                  You'll be redirected to the dashboard shortly.
-                </p>
-                <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                  <Icon name="Clock" size={16} />
-                  <span>Redirecting in 3 seconds...</span>
-                </div>
+        <main className="flex-1 pt-16">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col items-center justify-center">
+            <div className="bg-card rounded-lg shadow-md p-8 w-full max-w-lg text-center animate-fade-in">
+              <h2 className="text-2xl font-semibold text-foreground mb-2">
+                Internship Posted Successfully!
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                Your internship opportunity has been posted and is now visible to students. 
+                You'll be redirected to the dashboard shortly.
+              </p>
+              <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
+                <Icon name="Clock" size={16} />
+                <span>Redirecting in 3 seconds...</span>
               </div>
             </div>
           </div>
-        </div>
+        </main>
+        <FooterSection />
       </div>
     );
   }
@@ -296,10 +203,10 @@ const CompanyInternshipPosting = () => {
             </div>
           </div>
 
-          <form className="space-y-8" onSubmit={(e) => e?.preventDefault()}>
+          <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             {/* Company Information Section */}
             <CompanyInfoSection
-              formData={formData}
+              formData={getValues()}
               onChange={handleInputChange}
               errors={errors}
             />
@@ -313,41 +220,42 @@ const CompanyInternshipPosting = () => {
                 label="Internship Title"
                 type="text"
                 placeholder="e.g., Frontend Developer Intern, Data Science Intern"
-                value={formData?.internshipTitle}
+                value={getValues('internshipTitle')}
                 onChange={(e) => handleInputChange('internshipTitle', e?.target?.value)}
-                error={errors?.internshipTitle}
+                error={errors?.internshipTitle?.message}
                 required
                 description="Create a clear, descriptive title that attracts the right candidates"
+                {...register('internshipTitle', { required: 'Internship title is required' })}
               />
 
               <SkillsInput
-                value={formData?.requiredSkills}
+                value={getValues('requiredSkills')}
                 onChange={(skills) => handleInputChange('requiredSkills', skills)}
-                error={errors?.requiredSkills}
+                error={errors?.requiredSkills?.message}
                 required
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <LocationSelector
-                  value={formData?.location}
+                  value={getValues('location')}
                   onChange={(location) => handleInputChange('location', location)}
-                  error={errors?.location}
+                  error={errors?.location?.message}
                   required
                 />
 
                 <SectorSelector
-                  value={formData?.sector}
+                  value={getValues('sector')}
                   onChange={(sector) => handleInputChange('sector', sector)}
-                  error={errors?.sector}
+                  error={errors?.sector?.message}
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <DurationSelector
-                  value={formData?.duration}
+                  value={getValues('duration')}
                   onChange={(duration) => handleInputChange('duration', duration)}
-                  error={errors?.duration}
+                  error={errors?.duration?.message}
                   required
                 />
 
@@ -355,19 +263,20 @@ const CompanyInternshipPosting = () => {
                   label="Number of Positions"
                   type="number"
                   placeholder="e.g., 5"
-                  value={formData?.capacity}
+                  value={getValues('capacity')}
                   onChange={(e) => handleInputChange('capacity', e?.target?.value)}
-                  error={errors?.capacity}
+                  error={errors?.capacity?.message}
                   required
                   min="1"
                   max="50"
                   description="How many interns will you hire?"
+                  {...register('capacity', { required: 'Capacity is required', min: { value: 1, message: 'Capacity must be at least 1' } })}
                 />
 
                 <StipendInput
-                  value={formData?.stipend}
+                  value={getValues('stipend')}
                   onChange={(stipend) => handleInputChange('stipend', stipend)}
-                  error={errors?.stipend}
+                  error={errors?.stipend?.message}
                 />
               </div>
             </FormSection>
@@ -384,16 +293,17 @@ const CompanyInternshipPosting = () => {
                   </label>
                   <textarea
                     placeholder={`Describe the internship opportunity in detail. Include:\n• What the intern will work on\n• Learning objectives and outcomes\n• Team structure and mentorship\n• Project examples or case studies\n• Growth opportunities`}
-                    value={formData?.description}
+                    value={getValues('description')}
                     onChange={(e) => handleInputChange('description', e?.target?.value)}
                     rows={6}
                     className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent resize-vertical"
+                    {...register('description', { required: 'Description is required', minLength: { value: 50, message: 'Description must be at least 50 characters' } })}
                   />
                   {errors?.description && (
-                    <p className="mt-1 text-sm text-error">{errors?.description}</p>
+                    <p className="mt-1 text-sm text-error">{errors?.description.message}</p>
                   )}
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Minimum 50 characters. Current: {formData?.description?.length}
+                    Minimum 50 characters. Current: {getValues('description')?.length}
                   </p>
                 </div>
 
@@ -403,10 +313,11 @@ const CompanyInternshipPosting = () => {
                   </label>
                   <textarea
                     placeholder={`List specific requirements:\n• Educational background (e.g., pursuing Computer Science)\n• Technical skills and proficiency levels\n• Soft skills and personal qualities\n• Previous experience (if any)\n• Language requirements`}
-                    value={formData?.requirements}
+                    value={getValues('requirements')}
                     onChange={(e) => handleInputChange('requirements', e?.target?.value)}
                     rows={4}
                     className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent resize-vertical"
+                    {...register('requirements')}
                   />
                   <p className="mt-1 text-xs text-muted-foreground">
                     Optional: Specify additional requirements beyond the skills listed above
@@ -419,10 +330,11 @@ const CompanyInternshipPosting = () => {
                   </label>
                   <textarea
                     placeholder={`Highlight what makes this internship attractive:\n• Learning and development opportunities\n• Mentorship and guidance\n• Networking opportunities\n• Potential for full-time conversion\n• Additional perks (flexible hours, remote work, etc.)`}
-                    value={formData?.benefits}
+                    value={getValues('benefits')}
                     onChange={(e) => handleInputChange('benefits', e?.target?.value)}
                     rows={4}
                     className="w-full px-3 py-2 border border-border rounded-md bg-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent resize-vertical"
+                    {...register('benefits')}
                   />
                   <p className="mt-1 text-xs text-muted-foreground">
                     Optional: Describe the benefits and learning opportunities
@@ -434,16 +346,15 @@ const CompanyInternshipPosting = () => {
             {/* Form Actions */}
             <div className="bg-card rounded-lg border border-border p-6">
               <FormActions
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
                 onSaveDraft={handleSaveDraft}
                 isSubmitting={isSubmitting}
                 isSavingDraft={isSavingDraft}
                 canSubmit={canSubmit}
               />
-              
               {errors?.submit && (
                 <div className="mt-4 p-3 bg-error/10 border border-error/20 rounded-md">
-                  <p className="text-sm text-error">{errors?.submit}</p>
+                  <p className="text-sm text-error">{errors?.submit.message}</p>
                 </div>
               )}
             </div>

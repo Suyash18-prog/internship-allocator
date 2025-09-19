@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
-import { supabase } from '../../lib/supabaseClient';
+
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [school, setSchool] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
-  const handleNext = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setLoading(true);
     setMessage(null);
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: `${window.location.origin}/home-landing` }
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.email, password: data.password })
       });
-      if (error) throw error;
-      setMessage('Check your email for a login link.');
+      const resData = await response.json();
+      if (!response.ok) throw new Error(resData.message || 'Login failed');
+      localStorage.setItem('token', resData.token);
+      setMessage('Login successful! Redirecting...');
+      // Redirect based on role: companies -> industry dashboard, students -> student dashboard
+      setTimeout(() => {
+        const role = resData.user?.role;
+        if (role === 'company' || role === 'industry' || role === 'employer') {
+          navigate('/industry/dashboard');
+        } else {
+          navigate('/student-dashboard');
+        }
+      }, 1000);
     } catch (err) {
       setMessage(err.message || 'Request failed');
     } finally {
@@ -31,11 +42,7 @@ const Login = () => {
   const handleGoogle = async () => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: `${window.location.origin}/home-landing` }
-      });
-      if (error) throw error;
+  // TODO: Replace with JWT-based Google OAuth (if implemented)
     } catch (err) {
       setMessage(err.message || 'Google sign-in failed');
     } finally {
@@ -60,17 +67,17 @@ const Login = () => {
 
         {message && <p className="mb-4 text-sm text-black/75">{message}</p>}
 
-        <form onSubmit={handleNext} className="space-y-6">
+  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40" size={18} />
             <input
               className="w-full pl-9 pr-3 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
               style={{ borderColor: '#d4d6ec' }}
-              value={school}
-              onChange={(e) => setSchool(e.target.value)}
-              type="text"
-              placeholder="Find your school"
+              type="password"
+              placeholder="Password"
+              {...register('password', { required: 'Password is required' })}
             />
+            {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
           </div>
 
           <div className="flex items-center gap-3 text-black/50">
@@ -83,20 +90,18 @@ const Login = () => {
             <input
               className="w-full px-4 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
               style={{ borderColor: '#d4d6ec' }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Enter email"
-              required
+              {...register('email', { required: 'Email is required' })}
             />
+            {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
           </div>
 
           <div>
             <button
               type="submit"
-              className={`w-full px-4 py-3 font-semibold rounded-lg transition ${email ? 'bg-black text-white hover:brightness-95' : 'bg-white text-black/60 border'} `}
-              style={!email ? { borderColor: '#d4d6ec', borderWidth: 1 } : undefined}
-              disabled={loading || !email}
+              className={`w-full px-4 py-3 font-semibold rounded-lg transition bg-black text-white hover:brightness-95`}
+              disabled={loading}
             >
               {loading ? 'Sending…' : 'Next'}
             </button>

@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+python-multipart
+# Optional (uncomment if you need async file helpers)
+# aiofiles

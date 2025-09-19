@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
@@ -6,8 +6,38 @@ import Button from '../../../components/ui/Button';
 const MatchCard = ({ internship, rank, isTopMatch = false }) => {
   const navigate = useNavigate();
 
+
+  const [applying, setApplying] = useState(false);
+  const [applied, setApplied] = useState(false);
+  const [error, setError] = useState(null);
+
   const handleViewDetails = () => {
     navigate('/internship-details-view', { state: { internship } });
+  };
+
+  const handleApply = async () => {
+    setApplying(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/applications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ internshipId: internship.id })
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Failed to apply');
+      }
+      setApplied(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setApplying(false);
+    }
   };
 
   const getMatchScoreColor = (score) => {
@@ -137,14 +167,18 @@ const MatchCard = ({ internship, rank, isTopMatch = false }) => {
           View Details
         </Button>
         <Button
-          variant="outline"
-          iconName="Heart"
+          variant={applied ? 'success' : 'outline'}
+          iconName={applied ? 'Check' : 'Heart'}
           iconPosition="left"
           className="flex-1"
+          onClick={handleApply}
+          loading={applying}
+          disabled={applied || applying}
         >
-          Express Interest
+          {applied ? 'Applied' : 'Apply'}
         </Button>
       </div>
+      {error && <div className="mt-2 text-xs text-error">{error}</div>}
       {/* Match Breakdown Tooltip */}
       {isTopMatch && (
         <div className="mt-4 p-3 bg-muted/50 rounded-lg border border-border">

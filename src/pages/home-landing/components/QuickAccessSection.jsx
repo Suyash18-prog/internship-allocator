@@ -68,7 +68,7 @@ const QuickAccessSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-background">
+  <section className="py-16 bg-background animate-fade-in delay-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Quick Access Links */}
         <div className="mb-16">
@@ -82,9 +82,12 @@ const QuickAccessSection = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {quickLinks?.map((link) => (
+            {quickLinks?.map((link, idx) => (
               <Link key={link?.id} to={link?.path} className="group">
-                <div className={`bg-card rounded-xl p-6 border-2 ${link?.borderColor} hover:shadow-lg transition-all duration-300 group-hover:scale-105`}>
+                <div
+                  className={`bg-card rounded-xl p-6 border-2 ${link?.borderColor} hover:shadow-2xl transition-all duration-300 group-hover:scale-105 animate-fade-in`}
+                  style={{ animationDelay: `${0.4 + idx * 0.1}s` }}
+                >
                   <div className="flex items-center mb-4">
                     <div className={`w-12 h-12 ${link?.bgColor} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                       <Icon name={link?.icon} size={24} className={link?.color} />
@@ -110,8 +113,12 @@ const QuickAccessSection = () => {
         
         {/* User Type Sections */}
         <div className="space-y-8">
-          {userTypes?.map((userType) => (
-            <div key={userType?.id} className={`${userType?.bgColor} rounded-2xl p-8 border border-border`}>
+          {userTypes?.map((userType, idx) => (
+            <div
+              key={userType?.id}
+              className={`${userType?.bgColor} rounded-2xl p-8 border border-border animate-fade-in`}
+              style={{ animationDelay: `${0.6 + idx * 0.1}s` }}
+            >
               <div className="grid lg:grid-cols-2 gap-8 items-center">
                 <div>
                   <div className="flex items-center mb-4">

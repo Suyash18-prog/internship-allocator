@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabaseClient';
+
 
 const SignUp = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [role, setRole] = useState('student');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
@@ -32,22 +32,18 @@ const SignUp = () => {
     };
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     setLoading(true);
     setMessage(null);
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { role }
-        }
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.email, password: data.password, role })
       });
-      if (error) throw error;
-      setMessage('Signup successful. Please check your email to confirm your account.');
-      setEmail(''); setPassword('');
-      // optionally redirect to login
+      const resData = await response.json();
+      if (!response.ok) throw new Error(resData.message || 'Signup failed');
+      setMessage('Signup successful! Redirecting to login...');
       setTimeout(() => navigate('/auth/login'), 1500);
     } catch (err) {
       setMessage(err.message || 'Signup failed');
@@ -66,26 +62,51 @@ const SignUp = () => {
 
         {message && <p className="mb-4 text-sm text-black/75">{message}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
             <label className="block text-sm mb-2 text-black/75">Email address</label>
             <input
               className="w-full px-4 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
               style={{ borderColor: '#d4d6ec' }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="you@college.com"
-              required
+              {...register('email', { required: 'Email is required' })}
             />
+            {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
+          </div>
+
+          <div>
+            <label className="block text-sm mb-2 text-black/75">Password</label>
+            <input
+              className="w-full px-4 py-3 border rounded-lg text-black placeholder:text-black/40 focus:outline-none focus:ring-2 focus:ring-primary"
+              style={{ borderColor: '#d4d6ec' }}
+              type="password"
+              placeholder="Password"
+              {...register('password', { required: 'Password is required' })}
+            />
+            {errors.password && <span className="text-red-500 text-xs">{errors.password.message}</span>}
+          </div>
+
+          <div>
+            <label className="block text-sm mb-2 text-black/75">Sign up as</label>
+            <select
+              className="w-full px-4 py-3 border rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-primary"
+              style={{ borderColor: '#d4d6ec' }}
+              value={role}
+              onChange={e => setRole(e.target.value)}
+            >
+              <option value="student">Student</option>
+              <option value="company">Company</option>
+            </select>
           </div>
 
           <div>
             <button
               type="submit"
               className="w-full px-4 py-3 bg-black text-white font-semibold rounded-lg shadow-md hover:brightness-95 transition"
+              disabled={loading}
             >
-              Next
+              {loading ? 'Signing up…' : 'Next'}
             </button>
           </div>
 

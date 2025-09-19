@@ -1,0 +1,4 @@
+name,email,education,skills,sector_interests,location_pref,experience,resume_text,timestamp
+Nidhish,nidhish@gmail.com,"BTech CS, 2nd year","Python, AI, ML",Technology,,,,2025-09-19T05:41:20.525444
+Disha Sirwani,disha@gmail.com,MTech,"AI, ML, Web dev",,,,,
+Nidhish Kaul,nidhish.kaul@gmail.com,M.Tech Integrated (5 years),"Python, SQL, C++, JAVA, Pandas, Numpy, Scikit-Learn, Tensorflow, Seaborn, Matplotlib, NLTK, Excel, Git, GitHub, Docker, Anaconda, Streamlit, Google Colab, VS Code, Jupyter Notebook, Spotify API","Machine Learning, AI, Data Science",,"Hands-on experience in building end-to-end data-driven applications using Python, Streamlit, and TensorFlow. Skilled in EDA, NLP, deep learning, and deploying no-code ML platforms.",,

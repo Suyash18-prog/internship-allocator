@@ -56,7 +56,7 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="py-16 bg-muted/30">
+  <section className="py-16 bg-muted/30 animate-fade-in delay-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
@@ -68,8 +68,12 @@ const TestimonialsSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {testimonials?.map((testimonial) => (
-            <div key={testimonial?.id} className="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-all duration-300">
+          {testimonials?.map((testimonial, idx) => (
+            <div
+              key={testimonial?.id}
+              className="bg-card rounded-xl p-6 border border-border hover:shadow-2xl transition-all duration-300 animate-fade-in"
+              style={{ animationDelay: `${0.3 + idx * 0.1}s` }}
+            >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-4">

@@ -1,0 +1,276 @@
+INFO:     Will watch for changes in these directories: ['/Users/suyashpandey/internship-allocator/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [64301] using WatchFiles
+INFO:     Started server process [64356]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:58332 - "GET /health HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'fastapi_app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [64356]
+INFO:     Started server process [64580]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:58516 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58519 - "GET /companies HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 30 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C001', 'CompanyName': 'TechNova Solutions', 'Industry': 'IT', 'Sector': 'Software Development', 'Location': 'Bangalore', 'PostedRole': 'Software Developer Intern', 'SkillsRequired': 'Python, React, SQL', 'Capacity': 10, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'hr@technova.com'}}
+  {'type': 'missing', 'loc': ('response', 1, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C002', 'CompanyName': 'GreenEarth Energy', 'Industry': 'Energy', 'Sector': 'Renewable Energy', 'Location': 'Hyderabad', 'PostedRole': 'Solar Project Intern', 'SkillsRequired': 'Electrical Engineering, CAD', 'Capacity': 5, 'Duration': '2 months', 'Stipend': 12000.0, 'ContactEmail': 'careers@greenearth.com'}}
+  {'type': 'missing', 'loc': ('response', 2, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C003', 'CompanyName': 'FinAxis Capital', 'Industry': 'Finance', 'Sector': 'Investment Banking', 'Location': 'Mumbai', 'PostedRole': 'Finance Analyst Intern', 'SkillsRequired': 'Excel, Financial Modelling', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 20000.0, 'ContactEmail': 'jobs@finaxis.com'}}
+  {'type': 'missing', 'loc': ('response', 3, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C004', 'CompanyName': 'MedCure Pharma', 'Industry': 'Healthcare', 'Sector': 'Pharmaceuticals', 'Location': 'Pune', 'PostedRole': 'Research Intern', 'SkillsRequired': 'Biotech, Lab Work, Report Writing', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 10000.0, 'ContactEmail': 'interns@medcure.com'}}
+  {'type': 'missing', 'loc': ('response', 4, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C005', 'CompanyName': 'AgriSmart India', 'Industry': 'Agriculture', 'Sector': 'Agri-Tech', 'Location': 'Indore', 'PostedRole': 'Agriculture Data Intern', 'SkillsRequired': 'Data Analysis, IoT Basics', 'Capacity': 4, 'Duration': '2 months', 'Stipend': 8000.0, 'ContactEmail': 'apply@agrismart.com'}}
+  {'type': 'missing', 'loc': ('response', 5, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C006', 'CompanyName': 'BuildWell Infra', 'Industry': 'Infrastructure', 'Sector': 'Civil Engineering', 'Location': 'Delhi', 'PostedRole': 'Civil Site Intern', 'SkillsRequired': 'AutoCAD, Structural Analysis', 'Capacity': 8, 'Duration': '4 months', 'Stipend': 14000.0, 'ContactEmail': 'careers@buildwell.com'}}
+  {'type': 'missing', 'loc': ('response', 6, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C007', 'CompanyName': 'MarketGurus', 'Industry': 'Marketing', 'Sector': 'Digital Marketing', 'Location': 'Gurugram', 'PostedRole': 'Marketing Intern', 'SkillsRequired': 'Content Writing, SEO, Social Media', 'Capacity': 12, 'Duration': '3 months', 'Stipend': 12000.0, 'ContactEmail': 'hr@marketgurus.com'}}
+  {'type': 'missing', 'loc': ('response', 7, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C008', 'CompanyName': 'SpaceNext Aero', 'Industry': 'Aerospace', 'Sector': 'Research & Development', 'Location': 'Bengaluru', 'PostedRole': 'Aerospace Intern', 'SkillsRequired': 'Matlab, Simulation, Mechanical Design', 'Capacity': 3, 'Duration': '6 months', 'Stipend': 18000.0, 'ContactEmail': 'careers@spacenext.com'}}
+  {'type': 'missing', 'loc': ('response', 8, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C009', 'CompanyName': 'UrbanMove Logistics', 'Industry': 'Logistics', 'Sector': 'Supply Chain', 'Location': 'Chennai', 'PostedRole': 'Operations Intern', 'SkillsRequired': 'Excel, Analytics, Communication', 'Capacity': 9, 'Duration': '3 months', 'Stipend': 10000.0, 'ContactEmail': 'jobs@urbanmove.com'}}
+  {'type': 'missing', 'loc': ('response', 9, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C010', 'CompanyName': 'SafeNet Cyber', 'Industry': 'IT', 'Sector': 'Cybersecurity', 'Location': 'Noida', 'PostedRole': 'Cybersecurity Intern', 'SkillsRequired': 'Network Security, Ethical Hacking', 'Capacity': 6, 'Duration': '4 months', 'Stipend': 16000.0, 'ContactEmail': 'apply@safenet.com'}}
+  {'type': 'missing', 'loc': ('response', 10, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C011', 'CompanyName': 'BlueWave Media', 'Industry': 'Media', 'Sector': 'Content Creation', 'Location': 'Mumbai', 'PostedRole': 'Content Creator Intern', 'SkillsRequired': 'Video Editing, Canva, Storytelling', 'Capacity': 10, 'Duration': '2 months', 'Stipend': 9000.0, 'ContactEmail': 'interns@bluewave.com'}}
+  {'type': 'missing', 'loc': ('response', 11, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C012', 'CompanyName': 'FoodieTech', 'Industry': 'FoodTech', 'Sector': 'Food Delivery', 'Location': 'Bangalore', 'PostedRole': 'Operations Intern', 'SkillsRequired': 'Excel, Data Entry, Customer Support', 'Capacity': 15, 'Duration': '2 months', 'Stipend': 7000.0, 'ContactEmail': 'hr@foodietech.com'}}
+  {'type': 'missing', 'loc': ('response', 12, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C013', 'CompanyName': 'AutoMech Motors', 'Industry': 'Automobile', 'Sector': 'EV Manufacturing', 'Location': 'Pune', 'PostedRole': 'Mechanical Intern', 'SkillsRequired': 'CAD, Problem Solving, EV Basics', 'Capacity': 5, 'Duration': '4 months', 'Stipend': 12000.0, 'ContactEmail': 'careers@automech.com'}}
+  {'type': 'missing', 'loc': ('response', 13, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C014', 'CompanyName': 'DataSolve Analytics', 'Industry': 'IT', 'Sector': 'Data Science', 'Location': 'Hyderabad', 'PostedRole': 'Data Analyst Intern', 'SkillsRequired': 'Python, SQL, Power BI', 'Capacity': 8, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'apply@datasolve.com'}}
+  {'type': 'missing', 'loc': ('response', 14, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C015', 'CompanyName': 'HealthNet Hospitals', 'Industry': 'Healthcare', 'Sector': 'Clinical Research', 'Location': 'Delhi', 'PostedRole': 'Healthcare Intern', 'SkillsRequired': 'Biology, Data Entry, Communication', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 10000.0, 'ContactEmail': 'hr@healthnet.com'}}
+  {'type': 'missing', 'loc': ('response', 15, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C016', 'CompanyName': 'InspireEdu', 'Industry': 'EdTech', 'Sector': 'E-learning', 'Location': 'Gurugram', 'PostedRole': 'Instructional Design Intern', 'SkillsRequired': 'Storyboarding, Canva, Research', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 8000.0, 'ContactEmail': 'careers@inspireedu.com'}}
+  {'type': 'missing', 'loc': ('response', 16, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C017', 'CompanyName': 'RetailX Global', 'Industry': 'Retail', 'Sector': 'E-commerce', 'Location': 'Bangalore', 'PostedRole': 'E-commerce Intern', 'SkillsRequired': 'Excel, Marketing, Product Listing', 'Capacity': 12, 'Duration': '2 months', 'Stipend': 10000.0, 'ContactEmail': 'jobs@retailx.com'}}
+  {'type': 'missing', 'loc': ('response', 17, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C018', 'CompanyName': 'GreenBuild Constructions', 'Industry': 'Infrastructure', 'Sector': 'Sustainable Housing', 'Location': 'Chennai', 'PostedRole': 'Sustainability Intern', 'SkillsRequired': 'AutoCAD, Civil Engg, Green Design', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 13000.0, 'ContactEmail': 'apply@greenbuild.com'}}
+  {'type': 'missing', 'loc': ('response', 18, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C019', 'CompanyName': 'NextGen AI Labs', 'Industry': 'IT', 'Sector': 'Artificial Intelligence', 'Location': 'Pune', 'PostedRole': 'AI Intern', 'SkillsRequired': 'Python, ML, TensorFlow', 'Capacity': 5, 'Duration': '3 months', 'Stipend': 20000.0, 'ContactEmail': 'interns@nextgenai.com'}}
+  {'type': 'missing', 'loc': ('response', 19, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C020', 'CompanyName': 'OceanBlue Shipping', 'Industry': 'Logistics', 'Sector': 'Maritime', 'Location': 'Kochi', 'PostedRole': 'Shipping Intern', 'SkillsRequired': 'Logistics, Excel, International Trade', 'Capacity': 6, 'Duration': '6 months', 'Stipend': 15000.0, 'ContactEmail': 'careers@oceanblue.com'}}
+  {'type': 'missing', 'loc': ('response', 20, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C021', 'CompanyName': 'FinTech Hive', 'Industry': 'Finance', 'Sector': 'Digital Payments', 'Location': 'Delhi', 'PostedRole': 'FinTech Intern', 'SkillsRequired': 'Python, Blockchain Basics, Excel', 'Capacity': 8, 'Duration': '3 months', 'Stipend': 18000.0, 'ContactEmail': 'apply@fintechhive.com'}}
+  {'type': 'missing', 'loc': ('response', 21, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C022', 'CompanyName': 'Culture360', 'Industry': 'NGO', 'Sector': 'Community Development', 'Location': 'Bhubaneswar', 'PostedRole': 'Community Intern', 'SkillsRequired': 'Report Writing, Communication', 'Capacity': 10, 'Duration': '2 months', 'Stipend': 7000.0, 'ContactEmail': 'hr@culture360.org'}}
+  {'type': 'missing', 'loc': ('response', 22, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C023', 'CompanyName': 'AgroTech Labs', 'Industry': 'Agriculture', 'Sector': 'Farm Automation', 'Location': 'Lucknow', 'PostedRole': 'Agriculture Intern', 'SkillsRequired': 'IoT, Robotics, Data Collection', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 12000.0, 'ContactEmail': 'apply@agrotech.com'}}
+  {'type': 'missing', 'loc': ('response', 23, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C024', 'CompanyName': 'UrbanSky Realty', 'Industry': 'Real Estate', 'Sector': 'Smart Cities', 'Location': 'Mumbai', 'PostedRole': 'Urban Planning Intern', 'SkillsRequired': 'GIS, CAD, Data Analysis', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 14000.0, 'ContactEmail': 'careers@urbansky.com'}}
+  {'type': 'missing', 'loc': ('response', 24, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C025', 'CompanyName': 'MedVision Diagnostics', 'Industry': 'Healthcare', 'Sector': 'Medical Imaging', 'Location': 'Bangalore', 'PostedRole': 'Diagnostics Intern', 'SkillsRequired': 'AI in Healthcare, Python', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'interns@medvision.com'}}
+  {'type': 'missing', 'loc': ('response', 25, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C026', 'CompanyName': 'CloudX Technologies', 'Industry': 'IT', 'Sector': 'Cloud Computing', 'Location': 'Hyderabad', 'PostedRole': 'Cloud Intern', 'SkillsRequired': 'AWS, Azure, Linux', 'Capacity': 9, 'Duration': '4 months', 'Stipend': 16000.0, 'ContactEmail': 'jobs@cloudx.com'}}
+  {'type': 'missing', 'loc': ('response', 26, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C027', 'CompanyName': 'TechFleet Mobility', 'Industry': 'Automobile', 'Sector': 'Smart Mobility', 'Location': 'Chennai', 'PostedRole': 'EV Intern', 'SkillsRequired': 'IoT, EV Systems, CAD', 'Capacity': 5, 'Duration': '6 months', 'Stipend': 15000.0, 'ContactEmail': 'careers@techfleet.com'}}
+  {'type': 'missing', 'loc': ('response', 27, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C028', 'CompanyName': 'AgriWave Co-op', 'Industry': 'Agriculture', 'Sector': 'Rural Supply Chains', 'Location': 'Patna', 'PostedRole': 'Agribusiness Intern', 'SkillsRequired': 'Excel, Communication, Data Entry', 'Capacity': 8, 'Duration': '2 months', 'Stipend': 9000.0, 'ContactEmail': 'hr@agriwave.com'}}
+  {'type': 'missing', 'loc': ('response', 28, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C029', 'CompanyName': 'NextStep Robotics', 'Industry': 'Robotics', 'Sector': 'Automation', 'Location': 'Pune', 'PostedRole': 'Robotics Intern', 'SkillsRequired': 'C++, Python, ROS', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 18000.0, 'ContactEmail': 'interns@nextstep.com'}}
+  {'type': 'missing', 'loc': ('response', 29, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C030', 'CompanyName': 'GlobeTrade Exports', 'Industry': 'Trade', 'Sector': 'Export-Import', 'Location': 'Ahmedabad', 'PostedRole': 'Trade Analyst Intern', 'SkillsRequired': 'Excel, Data Analysis, Communication', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 12000.0, 'ContactEmail': 'apply@globetrade.com'}}
+
+INFO:     127.0.0.1:58558 - "GET /companies HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 30 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C001', 'CompanyName': 'TechNova Solutions', 'Industry': 'IT', 'Sector': 'Software Development', 'Location': 'Bangalore', 'PostedRole': 'Software Developer Intern', 'SkillsRequired': 'Python, React, SQL', 'Capacity': 10, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'hr@technova.com'}}
+  {'type': 'missing', 'loc': ('response', 1, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C002', 'CompanyName': 'GreenEarth Energy', 'Industry': 'Energy', 'Sector': 'Renewable Energy', 'Location': 'Hyderabad', 'PostedRole': 'Solar Project Intern', 'SkillsRequired': 'Electrical Engineering, CAD', 'Capacity': 5, 'Duration': '2 months', 'Stipend': 12000.0, 'ContactEmail': 'careers@greenearth.com'}}
+  {'type': 'missing', 'loc': ('response', 2, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C003', 'CompanyName': 'FinAxis Capital', 'Industry': 'Finance', 'Sector': 'Investment Banking', 'Location': 'Mumbai', 'PostedRole': 'Finance Analyst Intern', 'SkillsRequired': 'Excel, Financial Modelling', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 20000.0, 'ContactEmail': 'jobs@finaxis.com'}}
+  {'type': 'missing', 'loc': ('response', 3, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C004', 'CompanyName': 'MedCure Pharma', 'Industry': 'Healthcare', 'Sector': 'Pharmaceuticals', 'Location': 'Pune', 'PostedRole': 'Research Intern', 'SkillsRequired': 'Biotech, Lab Work, Report Writing', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 10000.0, 'ContactEmail': 'interns@medcure.com'}}
+  {'type': 'missing', 'loc': ('response', 4, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C005', 'CompanyName': 'AgriSmart India', 'Industry': 'Agriculture', 'Sector': 'Agri-Tech', 'Location': 'Indore', 'PostedRole': 'Agriculture Data Intern', 'SkillsRequired': 'Data Analysis, IoT Basics', 'Capacity': 4, 'Duration': '2 months', 'Stipend': 8000.0, 'ContactEmail': 'apply@agrismart.com'}}
+  {'type': 'missing', 'loc': ('response', 5, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C006', 'CompanyName': 'BuildWell Infra', 'Industry': 'Infrastructure', 'Sector': 'Civil Engineering', 'Location': 'Delhi', 'PostedRole': 'Civil Site Intern', 'SkillsRequired': 'AutoCAD, Structural Analysis', 'Capacity': 8, 'Duration': '4 months', 'Stipend': 14000.0, 'ContactEmail': 'careers@buildwell.com'}}
+  {'type': 'missing', 'loc': ('response', 6, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C007', 'CompanyName': 'MarketGurus', 'Industry': 'Marketing', 'Sector': 'Digital Marketing', 'Location': 'Gurugram', 'PostedRole': 'Marketing Intern', 'SkillsRequired': 'Content Writing, SEO, Social Media', 'Capacity': 12, 'Duration': '3 months', 'Stipend': 12000.0, 'ContactEmail': 'hr@marketgurus.com'}}
+  {'type': 'missing', 'loc': ('response', 7, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C008', 'CompanyName': 'SpaceNext Aero', 'Industry': 'Aerospace', 'Sector': 'Research & Development', 'Location': 'Bengaluru', 'PostedRole': 'Aerospace Intern', 'SkillsRequired': 'Matlab, Simulation, Mechanical Design', 'Capacity': 3, 'Duration': '6 months', 'Stipend': 18000.0, 'ContactEmail': 'careers@spacenext.com'}}
+  {'type': 'missing', 'loc': ('response', 8, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C009', 'CompanyName': 'UrbanMove Logistics', 'Industry': 'Logistics', 'Sector': 'Supply Chain', 'Location': 'Chennai', 'PostedRole': 'Operations Intern', 'SkillsRequired': 'Excel, Analytics, Communication', 'Capacity': 9, 'Duration': '3 months', 'Stipend': 10000.0, 'ContactEmail': 'jobs@urbanmove.com'}}
+  {'type': 'missing', 'loc': ('response', 9, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C010', 'CompanyName': 'SafeNet Cyber', 'Industry': 'IT', 'Sector': 'Cybersecurity', 'Location': 'Noida', 'PostedRole': 'Cybersecurity Intern', 'SkillsRequired': 'Network Security, Ethical Hacking', 'Capacity': 6, 'Duration': '4 months', 'Stipend': 16000.0, 'ContactEmail': 'apply@safenet.com'}}
+  {'type': 'missing', 'loc': ('response', 10, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C011', 'CompanyName': 'BlueWave Media', 'Industry': 'Media', 'Sector': 'Content Creation', 'Location': 'Mumbai', 'PostedRole': 'Content Creator Intern', 'SkillsRequired': 'Video Editing, Canva, Storytelling', 'Capacity': 10, 'Duration': '2 months', 'Stipend': 9000.0, 'ContactEmail': 'interns@bluewave.com'}}
+  {'type': 'missing', 'loc': ('response', 11, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C012', 'CompanyName': 'FoodieTech', 'Industry': 'FoodTech', 'Sector': 'Food Delivery', 'Location': 'Bangalore', 'PostedRole': 'Operations Intern', 'SkillsRequired': 'Excel, Data Entry, Customer Support', 'Capacity': 15, 'Duration': '2 months', 'Stipend': 7000.0, 'ContactEmail': 'hr@foodietech.com'}}
+  {'type': 'missing', 'loc': ('response', 12, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C013', 'CompanyName': 'AutoMech Motors', 'Industry': 'Automobile', 'Sector': 'EV Manufacturing', 'Location': 'Pune', 'PostedRole': 'Mechanical Intern', 'SkillsRequired': 'CAD, Problem Solving, EV Basics', 'Capacity': 5, 'Duration': '4 months', 'Stipend': 12000.0, 'ContactEmail': 'careers@automech.com'}}
+  {'type': 'missing', 'loc': ('response', 13, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C014', 'CompanyName': 'DataSolve Analytics', 'Industry': 'IT', 'Sector': 'Data Science', 'Location': 'Hyderabad', 'PostedRole': 'Data Analyst Intern', 'SkillsRequired': 'Python, SQL, Power BI', 'Capacity': 8, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'apply@datasolve.com'}}
+  {'type': 'missing', 'loc': ('response', 14, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C015', 'CompanyName': 'HealthNet Hospitals', 'Industry': 'Healthcare', 'Sector': 'Clinical Research', 'Location': 'Delhi', 'PostedRole': 'Healthcare Intern', 'SkillsRequired': 'Biology, Data Entry, Communication', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 10000.0, 'ContactEmail': 'hr@healthnet.com'}}
+  {'type': 'missing', 'loc': ('response', 15, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C016', 'CompanyName': 'InspireEdu', 'Industry': 'EdTech', 'Sector': 'E-learning', 'Location': 'Gurugram', 'PostedRole': 'Instructional Design Intern', 'SkillsRequired': 'Storyboarding, Canva, Research', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 8000.0, 'ContactEmail': 'careers@inspireedu.com'}}
+  {'type': 'missing', 'loc': ('response', 16, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C017', 'CompanyName': 'RetailX Global', 'Industry': 'Retail', 'Sector': 'E-commerce', 'Location': 'Bangalore', 'PostedRole': 'E-commerce Intern', 'SkillsRequired': 'Excel, Marketing, Product Listing', 'Capacity': 12, 'Duration': '2 months', 'Stipend': 10000.0, 'ContactEmail': 'jobs@retailx.com'}}
+  {'type': 'missing', 'loc': ('response', 17, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C018', 'CompanyName': 'GreenBuild Constructions', 'Industry': 'Infrastructure', 'Sector': 'Sustainable Housing', 'Location': 'Chennai', 'PostedRole': 'Sustainability Intern', 'SkillsRequired': 'AutoCAD, Civil Engg, Green Design', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 13000.0, 'ContactEmail': 'apply@greenbuild.com'}}
+  {'type': 'missing', 'loc': ('response', 18, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C019', 'CompanyName': 'NextGen AI Labs', 'Industry': 'IT', 'Sector': 'Artificial Intelligence', 'Location': 'Pune', 'PostedRole': 'AI Intern', 'SkillsRequired': 'Python, ML, TensorFlow', 'Capacity': 5, 'Duration': '3 months', 'Stipend': 20000.0, 'ContactEmail': 'interns@nextgenai.com'}}
+  {'type': 'missing', 'loc': ('response', 19, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C020', 'CompanyName': 'OceanBlue Shipping', 'Industry': 'Logistics', 'Sector': 'Maritime', 'Location': 'Kochi', 'PostedRole': 'Shipping Intern', 'SkillsRequired': 'Logistics, Excel, International Trade', 'Capacity': 6, 'Duration': '6 months', 'Stipend': 15000.0, 'ContactEmail': 'careers@oceanblue.com'}}
+  {'type': 'missing', 'loc': ('response', 20, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C021', 'CompanyName': 'FinTech Hive', 'Industry': 'Finance', 'Sector': 'Digital Payments', 'Location': 'Delhi', 'PostedRole': 'FinTech Intern', 'SkillsRequired': 'Python, Blockchain Basics, Excel', 'Capacity': 8, 'Duration': '3 months', 'Stipend': 18000.0, 'ContactEmail': 'apply@fintechhive.com'}}
+  {'type': 'missing', 'loc': ('response', 21, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C022', 'CompanyName': 'Culture360', 'Industry': 'NGO', 'Sector': 'Community Development', 'Location': 'Bhubaneswar', 'PostedRole': 'Community Intern', 'SkillsRequired': 'Report Writing, Communication', 'Capacity': 10, 'Duration': '2 months', 'Stipend': 7000.0, 'ContactEmail': 'hr@culture360.org'}}
+  {'type': 'missing', 'loc': ('response', 22, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C023', 'CompanyName': 'AgroTech Labs', 'Industry': 'Agriculture', 'Sector': 'Farm Automation', 'Location': 'Lucknow', 'PostedRole': 'Agriculture Intern', 'SkillsRequired': 'IoT, Robotics, Data Collection', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 12000.0, 'ContactEmail': 'apply@agrotech.com'}}
+  {'type': 'missing', 'loc': ('response', 23, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C024', 'CompanyName': 'UrbanSky Realty', 'Industry': 'Real Estate', 'Sector': 'Smart Cities', 'Location': 'Mumbai', 'PostedRole': 'Urban Planning Intern', 'SkillsRequired': 'GIS, CAD, Data Analysis', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 14000.0, 'ContactEmail': 'careers@urbansky.com'}}
+  {'type': 'missing', 'loc': ('response', 24, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C025', 'CompanyName': 'MedVision Diagnostics', 'Industry': 'Healthcare', 'Sector': 'Medical Imaging', 'Location': 'Bangalore', 'PostedRole': 'Diagnostics Intern', 'SkillsRequired': 'AI in Healthcare, Python', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'interns@medvision.com'}}
+  {'type': 'missing', 'loc': ('response', 25, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C026', 'CompanyName': 'CloudX Technologies', 'Industry': 'IT', 'Sector': 'Cloud Computing', 'Location': 'Hyderabad', 'PostedRole': 'Cloud Intern', 'SkillsRequired': 'AWS, Azure, Linux', 'Capacity': 9, 'Duration': '4 months', 'Stipend': 16000.0, 'ContactEmail': 'jobs@cloudx.com'}}
+  {'type': 'missing', 'loc': ('response', 26, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C027', 'CompanyName': 'TechFleet Mobility', 'Industry': 'Automobile', 'Sector': 'Smart Mobility', 'Location': 'Chennai', 'PostedRole': 'EV Intern', 'SkillsRequired': 'IoT, EV Systems, CAD', 'Capacity': 5, 'Duration': '6 months', 'Stipend': 15000.0, 'ContactEmail': 'careers@techfleet.com'}}
+  {'type': 'missing', 'loc': ('response', 27, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C028', 'CompanyName': 'AgriWave Co-op', 'Industry': 'Agriculture', 'Sector': 'Rural Supply Chains', 'Location': 'Patna', 'PostedRole': 'Agribusiness Intern', 'SkillsRequired': 'Excel, Communication, Data Entry', 'Capacity': 8, 'Duration': '2 months', 'Stipend': 9000.0, 'ContactEmail': 'hr@agriwave.com'}}
+  {'type': 'missing', 'loc': ('response', 28, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C029', 'CompanyName': 'NextStep Robotics', 'Industry': 'Robotics', 'Sector': 'Automation', 'Location': 'Pune', 'PostedRole': 'Robotics Intern', 'SkillsRequired': 'C++, Python, ROS', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 18000.0, 'ContactEmail': 'interns@nextstep.com'}}
+  {'type': 'missing', 'loc': ('response', 29, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C030', 'CompanyName': 'GlobeTrade Exports', 'Industry': 'Trade', 'Sector': 'Export-Import', 'Location': 'Ahmedabad', 'PostedRole': 'Trade Analyst Intern', 'SkillsRequired': 'Excel, Data Analysis, Communication', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 12000.0, 'ContactEmail': 'apply@globetrade.com'}}
+
+INFO:     127.0.0.1:58579 - "GET /companies HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/uvicorn/protocols/http/httptools_impl.py", line 409, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/Users/suyashpandey/internship-allocator/backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 30 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C001', 'CompanyName': 'TechNova Solutions', 'Industry': 'IT', 'Sector': 'Software Development', 'Location': 'Bangalore', 'PostedRole': 'Software Developer Intern', 'SkillsRequired': 'Python, React, SQL', 'Capacity': 10, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'hr@technova.com'}}
+  {'type': 'missing', 'loc': ('response', 1, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C002', 'CompanyName': 'GreenEarth Energy', 'Industry': 'Energy', 'Sector': 'Renewable Energy', 'Location': 'Hyderabad', 'PostedRole': 'Solar Project Intern', 'SkillsRequired': 'Electrical Engineering, CAD', 'Capacity': 5, 'Duration': '2 months', 'Stipend': 12000.0, 'ContactEmail': 'careers@greenearth.com'}}
+  {'type': 'missing', 'loc': ('response', 2, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C003', 'CompanyName': 'FinAxis Capital', 'Industry': 'Finance', 'Sector': 'Investment Banking', 'Location': 'Mumbai', 'PostedRole': 'Finance Analyst Intern', 'SkillsRequired': 'Excel, Financial Modelling', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 20000.0, 'ContactEmail': 'jobs@finaxis.com'}}
+  {'type': 'missing', 'loc': ('response', 3, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C004', 'CompanyName': 'MedCure Pharma', 'Industry': 'Healthcare', 'Sector': 'Pharmaceuticals', 'Location': 'Pune', 'PostedRole': 'Research Intern', 'SkillsRequired': 'Biotech, Lab Work, Report Writing', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 10000.0, 'ContactEmail': 'interns@medcure.com'}}
+  {'type': 'missing', 'loc': ('response', 4, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C005', 'CompanyName': 'AgriSmart India', 'Industry': 'Agriculture', 'Sector': 'Agri-Tech', 'Location': 'Indore', 'PostedRole': 'Agriculture Data Intern', 'SkillsRequired': 'Data Analysis, IoT Basics', 'Capacity': 4, 'Duration': '2 months', 'Stipend': 8000.0, 'ContactEmail': 'apply@agrismart.com'}}
+  {'type': 'missing', 'loc': ('response', 5, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C006', 'CompanyName': 'BuildWell Infra', 'Industry': 'Infrastructure', 'Sector': 'Civil Engineering', 'Location': 'Delhi', 'PostedRole': 'Civil Site Intern', 'SkillsRequired': 'AutoCAD, Structural Analysis', 'Capacity': 8, 'Duration': '4 months', 'Stipend': 14000.0, 'ContactEmail': 'careers@buildwell.com'}}
+  {'type': 'missing', 'loc': ('response', 6, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C007', 'CompanyName': 'MarketGurus', 'Industry': 'Marketing', 'Sector': 'Digital Marketing', 'Location': 'Gurugram', 'PostedRole': 'Marketing Intern', 'SkillsRequired': 'Content Writing, SEO, Social Media', 'Capacity': 12, 'Duration': '3 months', 'Stipend': 12000.0, 'ContactEmail': 'hr@marketgurus.com'}}
+  {'type': 'missing', 'loc': ('response', 7, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C008', 'CompanyName': 'SpaceNext Aero', 'Industry': 'Aerospace', 'Sector': 'Research & Development', 'Location': 'Bengaluru', 'PostedRole': 'Aerospace Intern', 'SkillsRequired': 'Matlab, Simulation, Mechanical Design', 'Capacity': 3, 'Duration': '6 months', 'Stipend': 18000.0, 'ContactEmail': 'careers@spacenext.com'}}
+  {'type': 'missing', 'loc': ('response', 8, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C009', 'CompanyName': 'UrbanMove Logistics', 'Industry': 'Logistics', 'Sector': 'Supply Chain', 'Location': 'Chennai', 'PostedRole': 'Operations Intern', 'SkillsRequired': 'Excel, Analytics, Communication', 'Capacity': 9, 'Duration': '3 months', 'Stipend': 10000.0, 'ContactEmail': 'jobs@urbanmove.com'}}
+  {'type': 'missing', 'loc': ('response', 9, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C010', 'CompanyName': 'SafeNet Cyber', 'Industry': 'IT', 'Sector': 'Cybersecurity', 'Location': 'Noida', 'PostedRole': 'Cybersecurity Intern', 'SkillsRequired': 'Network Security, Ethical Hacking', 'Capacity': 6, 'Duration': '4 months', 'Stipend': 16000.0, 'ContactEmail': 'apply@safenet.com'}}
+  {'type': 'missing', 'loc': ('response', 10, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C011', 'CompanyName': 'BlueWave Media', 'Industry': 'Media', 'Sector': 'Content Creation', 'Location': 'Mumbai', 'PostedRole': 'Content Creator Intern', 'SkillsRequired': 'Video Editing, Canva, Storytelling', 'Capacity': 10, 'Duration': '2 months', 'Stipend': 9000.0, 'ContactEmail': 'interns@bluewave.com'}}
+  {'type': 'missing', 'loc': ('response', 11, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C012', 'CompanyName': 'FoodieTech', 'Industry': 'FoodTech', 'Sector': 'Food Delivery', 'Location': 'Bangalore', 'PostedRole': 'Operations Intern', 'SkillsRequired': 'Excel, Data Entry, Customer Support', 'Capacity': 15, 'Duration': '2 months', 'Stipend': 7000.0, 'ContactEmail': 'hr@foodietech.com'}}
+  {'type': 'missing', 'loc': ('response', 12, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C013', 'CompanyName': 'AutoMech Motors', 'Industry': 'Automobile', 'Sector': 'EV Manufacturing', 'Location': 'Pune', 'PostedRole': 'Mechanical Intern', 'SkillsRequired': 'CAD, Problem Solving, EV Basics', 'Capacity': 5, 'Duration': '4 months', 'Stipend': 12000.0, 'ContactEmail': 'careers@automech.com'}}
+  {'type': 'missing', 'loc': ('response', 13, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C014', 'CompanyName': 'DataSolve Analytics', 'Industry': 'IT', 'Sector': 'Data Science', 'Location': 'Hyderabad', 'PostedRole': 'Data Analyst Intern', 'SkillsRequired': 'Python, SQL, Power BI', 'Capacity': 8, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'apply@datasolve.com'}}
+  {'type': 'missing', 'loc': ('response', 14, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C015', 'CompanyName': 'HealthNet Hospitals', 'Industry': 'Healthcare', 'Sector': 'Clinical Research', 'Location': 'Delhi', 'PostedRole': 'Healthcare Intern', 'SkillsRequired': 'Biology, Data Entry, Communication', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 10000.0, 'ContactEmail': 'hr@healthnet.com'}}
+  {'type': 'missing', 'loc': ('response', 15, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C016', 'CompanyName': 'InspireEdu', 'Industry': 'EdTech', 'Sector': 'E-learning', 'Location': 'Gurugram', 'PostedRole': 'Instructional Design Intern', 'SkillsRequired': 'Storyboarding, Canva, Research', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 8000.0, 'ContactEmail': 'careers@inspireedu.com'}}
+  {'type': 'missing', 'loc': ('response', 16, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C017', 'CompanyName': 'RetailX Global', 'Industry': 'Retail', 'Sector': 'E-commerce', 'Location': 'Bangalore', 'PostedRole': 'E-commerce Intern', 'SkillsRequired': 'Excel, Marketing, Product Listing', 'Capacity': 12, 'Duration': '2 months', 'Stipend': 10000.0, 'ContactEmail': 'jobs@retailx.com'}}
+  {'type': 'missing', 'loc': ('response', 17, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C018', 'CompanyName': 'GreenBuild Constructions', 'Industry': 'Infrastructure', 'Sector': 'Sustainable Housing', 'Location': 'Chennai', 'PostedRole': 'Sustainability Intern', 'SkillsRequired': 'AutoCAD, Civil Engg, Green Design', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 13000.0, 'ContactEmail': 'apply@greenbuild.com'}}
+  {'type': 'missing', 'loc': ('response', 18, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C019', 'CompanyName': 'NextGen AI Labs', 'Industry': 'IT', 'Sector': 'Artificial Intelligence', 'Location': 'Pune', 'PostedRole': 'AI Intern', 'SkillsRequired': 'Python, ML, TensorFlow', 'Capacity': 5, 'Duration': '3 months', 'Stipend': 20000.0, 'ContactEmail': 'interns@nextgenai.com'}}
+  {'type': 'missing', 'loc': ('response', 19, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C020', 'CompanyName': 'OceanBlue Shipping', 'Industry': 'Logistics', 'Sector': 'Maritime', 'Location': 'Kochi', 'PostedRole': 'Shipping Intern', 'SkillsRequired': 'Logistics, Excel, International Trade', 'Capacity': 6, 'Duration': '6 months', 'Stipend': 15000.0, 'ContactEmail': 'careers@oceanblue.com'}}
+  {'type': 'missing', 'loc': ('response', 20, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C021', 'CompanyName': 'FinTech Hive', 'Industry': 'Finance', 'Sector': 'Digital Payments', 'Location': 'Delhi', 'PostedRole': 'FinTech Intern', 'SkillsRequired': 'Python, Blockchain Basics, Excel', 'Capacity': 8, 'Duration': '3 months', 'Stipend': 18000.0, 'ContactEmail': 'apply@fintechhive.com'}}
+  {'type': 'missing', 'loc': ('response', 21, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C022', 'CompanyName': 'Culture360', 'Industry': 'NGO', 'Sector': 'Community Development', 'Location': 'Bhubaneswar', 'PostedRole': 'Community Intern', 'SkillsRequired': 'Report Writing, Communication', 'Capacity': 10, 'Duration': '2 months', 'Stipend': 7000.0, 'ContactEmail': 'hr@culture360.org'}}
+  {'type': 'missing', 'loc': ('response', 22, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C023', 'CompanyName': 'AgroTech Labs', 'Industry': 'Agriculture', 'Sector': 'Farm Automation', 'Location': 'Lucknow', 'PostedRole': 'Agriculture Intern', 'SkillsRequired': 'IoT, Robotics, Data Collection', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 12000.0, 'ContactEmail': 'apply@agrotech.com'}}
+  {'type': 'missing', 'loc': ('response', 23, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C024', 'CompanyName': 'UrbanSky Realty', 'Industry': 'Real Estate', 'Sector': 'Smart Cities', 'Location': 'Mumbai', 'PostedRole': 'Urban Planning Intern', 'SkillsRequired': 'GIS, CAD, Data Analysis', 'Capacity': 7, 'Duration': '6 months', 'Stipend': 14000.0, 'ContactEmail': 'careers@urbansky.com'}}
+  {'type': 'missing', 'loc': ('response', 24, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C025', 'CompanyName': 'MedVision Diagnostics', 'Industry': 'Healthcare', 'Sector': 'Medical Imaging', 'Location': 'Bangalore', 'PostedRole': 'Diagnostics Intern', 'SkillsRequired': 'AI in Healthcare, Python', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 15000.0, 'ContactEmail': 'interns@medvision.com'}}
+  {'type': 'missing', 'loc': ('response', 25, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C026', 'CompanyName': 'CloudX Technologies', 'Industry': 'IT', 'Sector': 'Cloud Computing', 'Location': 'Hyderabad', 'PostedRole': 'Cloud Intern', 'SkillsRequired': 'AWS, Azure, Linux', 'Capacity': 9, 'Duration': '4 months', 'Stipend': 16000.0, 'ContactEmail': 'jobs@cloudx.com'}}
+  {'type': 'missing', 'loc': ('response', 26, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C027', 'CompanyName': 'TechFleet Mobility', 'Industry': 'Automobile', 'Sector': 'Smart Mobility', 'Location': 'Chennai', 'PostedRole': 'EV Intern', 'SkillsRequired': 'IoT, EV Systems, CAD', 'Capacity': 5, 'Duration': '6 months', 'Stipend': 15000.0, 'ContactEmail': 'careers@techfleet.com'}}
+  {'type': 'missing', 'loc': ('response', 27, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C028', 'CompanyName': 'AgriWave Co-op', 'Industry': 'Agriculture', 'Sector': 'Rural Supply Chains', 'Location': 'Patna', 'PostedRole': 'Agribusiness Intern', 'SkillsRequired': 'Excel, Communication, Data Entry', 'Capacity': 8, 'Duration': '2 months', 'Stipend': 9000.0, 'ContactEmail': 'hr@agriwave.com'}}
+  {'type': 'missing', 'loc': ('response', 28, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C029', 'CompanyName': 'NextStep Robotics', 'Industry': 'Robotics', 'Sector': 'Automation', 'Location': 'Pune', 'PostedRole': 'Robotics Intern', 'SkillsRequired': 'C++, Python, ROS', 'Capacity': 4, 'Duration': '4 months', 'Stipend': 18000.0, 'ContactEmail': 'interns@nextstep.com'}}
+  {'type': 'missing', 'loc': ('response', 29, 'Name'), 'msg': 'Field required', 'input': {'CompanyID': 'C030', 'CompanyName': 'GlobeTrade Exports', 'Industry': 'Trade', 'Sector': 'Export-Import', 'Location': 'Ahmedabad', 'PostedRole': 'Trade Analyst Intern', 'SkillsRequired': 'Excel, Data Analysis, Communication', 'Capacity': 6, 'Duration': '3 months', 'Stipend': 12000.0, 'ContactEmail': 'apply@globetrade.com'}}
+
+WARNING:  WatchFiles detected changes in ' fastapi_app.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [64580]
+INFO:     Started server process [68782]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.

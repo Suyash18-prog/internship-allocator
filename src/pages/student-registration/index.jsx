@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Header from '../../components/ui/Header';
+import FooterSection from '../home-landing/components/FooterSection';
 import RegistrationHeader from './components/RegistrationHeader';
 import RegistrationForm from './components/RegistrationForm';
 
@@ -10,27 +11,24 @@ const StudentRegistration = () => {
   }, []);
 
   return (
-    <>
+    <div>
       <Helmet>
         <title>Student Registration - PM Internship Matcher</title>
         <meta name="description" content="Register as a student to find your perfect internship match through our AI-powered platform. Join thousands of students already using PM Internship Matcher." />
         <meta name="keywords" content="student registration, internship, PM scheme, career, job matching, AI recommendations" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background text-foreground font-sans flex flex-col">
         <Header />
-        
-        <main className="pt-16">
+        <main className="flex-1 pt-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="max-w-4xl mx-auto">
               <RegistrationHeader />
-              
               <div className="bg-card rounded-xl border border-border shadow-sm">
                 <div className="p-6 sm:p-8">
                   <RegistrationForm />
                 </div>
               </div>
-              
               {/* Additional Information */}
               <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-card rounded-lg border border-border p-6">
@@ -54,7 +52,6 @@ const StudentRegistration = () => {
                     </li>
                   </ul>
                 </div>
-                
                 <div className="bg-card rounded-lg border border-border p-6">
                   <h3 className="text-lg font-semibold text-foreground mb-3">Next Steps</h3>
                   <div className="space-y-3">
@@ -80,8 +77,9 @@ const StudentRegistration = () => {
             </div>
           </div>
         </main>
+        <FooterSection />
       </div>
-    </>
+    </div>
   );
 };
 

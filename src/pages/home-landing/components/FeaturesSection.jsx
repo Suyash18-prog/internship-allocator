@@ -60,7 +60,7 @@ const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-16 bg-background">
+  <section className="py-16 bg-background animate-fade-in delay-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
@@ -73,8 +73,12 @@ const FeaturesSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features?.map((feature) => (
-            <div key={feature?.id} className="bg-card rounded-xl p-6 border border-border hover:shadow-lg transition-all duration-300 group">
+          {features?.map((feature, idx) => (
+            <div
+              key={feature?.id}
+              className={`bg-card rounded-xl p-6 border border-border hover:shadow-2xl transition-all duration-300 group animate-fade-in`}
+              style={{ animationDelay: `${0.2 + idx * 0.1}s` }}
+            >
               <div className="flex items-center mb-4">
                 <div className={`w-12 h-12 ${feature?.bgColor} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                   <Icon name={feature?.icon} size={24} className={feature?.color} />
